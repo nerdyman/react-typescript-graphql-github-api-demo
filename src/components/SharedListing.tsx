@@ -10,7 +10,10 @@ import {
     Scalars,
 } from '../generated/graphql';
 
-interface SharedListingProps {
+import { SharedBox } from './SharedBox';
+import { SharedButton } from './SharedButton';
+
+export interface SharedListingProps {
     title: string;
     onClick?: (ev: React.SyntheticEvent) => void;
     description?: Maybe<Scalars['String']>;
@@ -32,10 +35,15 @@ export const SharedListing: React.FC<SharedListingProps> = ({
     tags,
     viewerHasStarred,
     viewerSubscription,
+    url,
     ...props
 }) => (
-    <div {...props}>
-        <h2>{title}</h2>
+    <SharedBox mb="whole" p="half" {...props}>
+        <h2>
+            <a href={url} target="_blank" rel="noopener noreferrer">
+                {title}
+            </a>
+        </h2>
         <p>{description}</p>
         <p>{owner ? owner.login : 'unknown'}</p>
         <p>{stargazers}</p>
@@ -45,5 +53,6 @@ export const SharedListing: React.FC<SharedListingProps> = ({
         </ul>
         <p>{viewerHasStarred}</p>
         <p>{viewerSubscription}</p>
-    </div>
+        <SharedButton>Hello</SharedButton>
+    </SharedBox>
 );
