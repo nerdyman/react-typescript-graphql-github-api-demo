@@ -1,5 +1,8 @@
 import gql from 'graphql-tag';
+import * as React from 'react';
+import * as Urql from 'urql';
 export type Maybe<T> = T | null;
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
     ID: string;
@@ -11199,7 +11202,7 @@ export type RepositoryOwnerFragment = {
     __typename?: 'Organization' | 'User';
 } & Pick<RepositoryOwner, 'id' | 'avatarUrl' | 'login' | 'url'>;
 
-export type RepositoryFragment = { __typename?: 'Repository' } & Pick<
+export type RepositoryPreviewFragment = { __typename?: 'Repository' } & Pick<
     Repository,
     | 'id'
     | 'name'
@@ -11224,11 +11227,37 @@ export type RepositoryFragment = { __typename?: 'Repository' } & Pick<
         >;
     };
 
-export type Unnamed_1_QueryVariables = {
+export type RepositoryDetailFragment = { __typename?: 'Repository' } & Pick<
+    Repository,
+    'createdAt' | 'diskUsage' | 'viewerCanAdminister'
+> & {
+        forks: { __typename?: 'RepositoryConnection' } & Pick<
+            RepositoryConnection,
+            'totalCount'
+        >;
+        collaborators: Maybe<
+            { __typename?: 'RepositoryCollaboratorConnection' } & {
+                edges: Maybe<
+                    Array<
+                        Maybe<
+                            { __typename?: 'RepositoryCollaboratorEdge' } & {
+                                node: { __typename?: 'User' } & Pick<
+                                    User,
+                                    'id' | 'avatarUrl' | 'login' | 'url'
+                                >;
+                            }
+                        >
+                    >
+                >;
+            }
+        >;
+    } & RepositoryPreviewFragment;
+
+export type ViewerRepositoryAllQueryVariables = {
     cursor?: Maybe<Scalars['String']>;
 };
 
-export type Unnamed_1_Query = { __typename?: 'Query' } & {
+export type ViewerRepositoryAllQuery = { __typename?: 'Query' } & {
     viewer: { __typename?: 'User' } & {
         repositories: { __typename?: 'RepositoryConnection' } & {
             edges: Maybe<
@@ -11238,7 +11267,7 @@ export type Unnamed_1_Query = { __typename?: 'Query' } & {
                             node: Maybe<
                                 {
                                     __typename?: 'Repository';
-                                } & RepositoryFragment
+                                } & RepositoryPreviewFragment
                             >;
                         }
                     >
@@ -11251,6 +11280,18 @@ export type Unnamed_1_Query = { __typename?: 'Query' } & {
         };
     };
 };
+
+export type ViewerRepositoryOneQueryVariables = {
+    name: Scalars['String'];
+};
+
+export type ViewerRepositoryOneQuery = { __typename?: 'Query' } & {
+    viewer: { __typename?: 'User' } & {
+        repository: Maybe<
+            { __typename?: 'Repository' } & RepositoryDetailFragment
+        >;
+    };
+};
 export const repositoryOwnerFragmentDoc = gql`
     fragment repositoryOwner on RepositoryOwner {
         id
@@ -11259,8 +11300,8 @@ export const repositoryOwnerFragmentDoc = gql`
         url
     }
 `;
-export const repositoryFragmentDoc = gql`
-    fragment repository on Repository {
+export const repositoryPreviewFragmentDoc = gql`
+    fragment repositoryPreview on Repository {
         id
         name
         url
@@ -11282,3 +11323,78 @@ export const repositoryFragmentDoc = gql`
     }
     ${repositoryOwnerFragmentDoc}
 `;
+export const repositoryDetailFragmentDoc = gql`
+    fragment repositoryDetail on Repository {
+        ...repositoryPreview
+        createdAt
+        diskUsage
+        viewerCanAdminister
+        forks {
+            totalCount
+        }
+        collaborators {
+            edges {
+                node {
+                    id
+                    avatarUrl
+                    login
+                    url
+                }
+            }
+        }
+    }
+    ${repositoryPreviewFragmentDoc}
+`;
+export const ViewerRepositoryAllDocument = gql`
+    query viewerRepositoryAll($cursor: String) {
+        viewer {
+            repositories(
+                first: 5
+                orderBy: { direction: DESC, field: UPDATED_AT }
+                after: $cursor
+            ) {
+                edges {
+                    node {
+                        ...repositoryPreview
+                    }
+                }
+                pageInfo {
+                    endCursor
+                    hasNextPage
+                }
+            }
+        }
+    }
+    ${repositoryPreviewFragmentDoc}
+`;
+
+export const ViewerRepositoryAllComponent = (
+    props: Omit<
+        Urql.QueryProps<
+            ViewerRepositoryAllQuery,
+            ViewerRepositoryAllQueryVariables
+        >,
+        'query'
+    > & { variables?: ViewerRepositoryAllQueryVariables },
+) => <Urql.Query {...props} query={ViewerRepositoryAllDocument} />;
+
+export const ViewerRepositoryOneDocument = gql`
+    query viewerRepositoryOne($name: String!) {
+        viewer {
+            repository(name: $name) {
+                ...repositoryDetail
+            }
+        }
+    }
+    ${repositoryDetailFragmentDoc}
+`;
+
+export const ViewerRepositoryOneComponent = (
+    props: Omit<
+        Urql.QueryProps<
+            ViewerRepositoryOneQuery,
+            ViewerRepositoryOneQueryVariables
+        >,
+        'query'
+    > & { variables: ViewerRepositoryOneQueryVariables },
+) => <Urql.Query {...props} query={ViewerRepositoryOneDocument} />;

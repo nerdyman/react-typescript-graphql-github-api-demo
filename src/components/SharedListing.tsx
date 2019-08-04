@@ -12,6 +12,7 @@ import {
 
 interface SharedListingProps {
     title: string;
+    onClick?: (ev: React.SyntheticEvent) => void;
     description?: Maybe<Scalars['String']>;
     owner: RepositoryOwnerFragment;
     stargazers: Maybe<StargazerConnection['totalCount']>;

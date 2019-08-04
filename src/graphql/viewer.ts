@@ -4,10 +4,13 @@
 
 import gql from 'graphql-tag';
 
-import { repositoryFragment } from './respository';
+import {
+    repositoryDetailFragment,
+    repositoryPreviewFragment,
+} from './respository';
 
-export const viewerQuery = gql`
-    query($cursor: String) {
+export const viewerRepositoryQueryAll = gql`
+    query viewerRepositoryAll($cursor: String) {
         viewer {
             repositories(
                 first: 5
@@ -16,7 +19,7 @@ export const viewerQuery = gql`
             ) {
                 edges {
                     node {
-                        ...repository
+                        ...repositoryPreview
                     }
                 }
                 pageInfo {
@@ -27,5 +30,17 @@ export const viewerQuery = gql`
         }
     }
 
-    ${repositoryFragment}
+    ${repositoryPreviewFragment}
+`;
+
+export const viewerRepositoryQueryOne = gql`
+    query viewerRepositoryOne($name: String!) {
+        viewer {
+            repository(name: $name) {
+                ...repositoryDetail
+            }
+        }
+    }
+
+    ${repositoryDetailFragment}
 `;

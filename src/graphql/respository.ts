@@ -9,8 +9,8 @@ export const repositoryOwnerFragment = gql`
     }
 `;
 
-export const repositoryFragment = gql`
-    fragment repository on Repository {
+export const repositoryPreviewFragment = gql`
+    fragment repositoryPreview on Repository {
         id
         name
         url
@@ -32,4 +32,28 @@ export const repositoryFragment = gql`
     }
 
     ${repositoryOwnerFragment}
+`;
+
+export const repositoryDetailFragment = gql`
+    fragment repositoryDetail on Repository {
+        ...repositoryPreview
+        createdAt
+        diskUsage
+        viewerCanAdminister
+        forks {
+            totalCount
+        }
+        collaborators {
+            edges {
+                node {
+                    id
+                    avatarUrl
+                    login
+                    url
+                }
+            }
+        }
+    }
+
+    ${repositoryPreviewFragment}
 `;
