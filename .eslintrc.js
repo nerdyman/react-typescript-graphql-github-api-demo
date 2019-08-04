@@ -1,5 +1,3 @@
-const build = require('./config/build');
-
 module.exports = {
     root: true,
 
