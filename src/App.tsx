@@ -3,34 +3,15 @@ import { ThemeProvider } from 'emotion-theming';
 import { Global } from '@emotion/core';
 import React from 'react';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
-import {
-    cacheExchange,
-    createClient,
-    debugExchange,
-    fetchExchange,
-    Provider,
-    subscriptionExchange,
-} from 'urql';
-import { SubscriptionClient } from 'subscriptions-transport-ws';
+import { createClient, Provider } from 'urql';
 
 import { globalCss } from './styles/global';
 import { theme } from './styles/theme';
 import { RouteMe } from './components/RouteMe';
 import { Route404 } from './components/Route404';
 
-const subscriptionClient = new SubscriptionClient(__ENV__.apiWsEndpoint, {});
-
 const client = createClient({
     url: __ENV__.apiEndpoint,
-    exchanges: [
-        debugExchange,
-        cacheExchange,
-        fetchExchange,
-        subscriptionExchange({
-            forwardSubscription: operation =>
-                subscriptionClient.request(operation),
-        }),
-    ],
     fetchOptions: () => ({
         headers: {
             authorization: `Bearer ${__ENV__.apiAuthToken}`,

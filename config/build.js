@@ -19,7 +19,6 @@ const getBuildConfig = () => {
     const {
         API_AUTH_TOKEN,
         API_ENDPOINT,
-        API_WS_ENDPOINT,
         CLIENT_HOST,
         CLIENT_PORT,
         CLIENT_PUBLIC_URL,
@@ -46,7 +45,6 @@ const getBuildConfig = () => {
         dirNodeModules,
         dirPublic,
         apiAuthToken: API_AUTH_TOKEN,
-        apiWsEndpoint: API_WS_ENDPOINT,
         apiEndpoint: API_ENDPOINT,
         clientHost: CLIENT_HOST,
         clientPort: CLIENT_PORT,
@@ -98,7 +96,6 @@ const buildConfig = {
         appTitle: config.appTitle,
         apiAuthToken: config.apiAuthToken,
         apiEndpoint: config.apiEndpoint,
-        apiWsEndpoint: config.apiWsEndpoint,
     },
 };
 
