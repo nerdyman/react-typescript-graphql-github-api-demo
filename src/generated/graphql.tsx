@@ -11253,6 +11253,15 @@ export type RepositoryDetailFragment = { __typename?: 'Repository' } & Pick<
         >;
     } & RepositoryPreviewFragment;
 
+export type RepositoryOneQueryVariables = {
+    owner: Scalars['String'];
+    name: Scalars['String'];
+};
+
+export type RepositoryOneQuery = { __typename?: 'Query' } & {
+    repository: Maybe<{ __typename?: 'Repository' } & RepositoryDetailFragment>;
+};
+
 export type ViewerRepositoryAllQueryVariables = {
     cursor?: Maybe<Scalars['String']>;
 };
@@ -11345,6 +11354,22 @@ export const repositoryDetailFragmentDoc = gql`
     }
     ${repositoryPreviewFragmentDoc}
 `;
+export const RepositoryOneDocument = gql`
+    query repositoryOne($owner: String!, $name: String!) {
+        repository(owner: $owner, name: $name) {
+            ...repositoryDetail
+        }
+    }
+    ${repositoryDetailFragmentDoc}
+`;
+
+export const RepositoryOneComponent = (
+    props: Omit<
+        Urql.QueryProps<RepositoryOneQuery, RepositoryOneQueryVariables>,
+        'query'
+    > & { variables: RepositoryOneQueryVariables },
+) => <Urql.Query {...props} query={RepositoryOneDocument} />;
+
 export const ViewerRepositoryAllDocument = gql`
     query viewerRepositoryAll($cursor: String) {
         viewer {

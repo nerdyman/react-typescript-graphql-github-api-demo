@@ -57,3 +57,12 @@ export const repositoryDetailFragment = gql`
 
     ${repositoryPreviewFragment}
 `;
+
+export const repositoryQueryOne = gql`
+    query repositoryOne($owner: String!, $name: String!) {
+        repository(owner: $owner, name: $name) {
+            ...repositoryDetail
+        }
+    }
+    ${repositoryDetailFragment}
+`;

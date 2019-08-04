@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { useQuery } from 'urql';
 
 import { Repository } from '../generated/graphql';
-import {
-    viewerRepositoryQueryAll,
-    viewerRepositoryQueryOne,
-} from '../graphql/viewer';
+import { repositoryQueryOne } from '../graphql/respository';
+import { viewerRepositoryQueryAll } from '../graphql/viewer';
 import { SharedListing } from '../components/SharedListing';
 
 export const RouteMe: React.FC = props => {
     // Set initial listing variables (initially paused)
+    // @TODO Investigate possiblity of changing variables through
+    //       `executeListingQuery` at runtime
     const [listingConfig, setListingConfig] = useState({
         pause: true,
-        variables: { name: '' },
+        variables: { name: '', owner: '' },
     });
 
     const [listings /*, executeQuery*/] = useQuery({
@@ -20,12 +20,18 @@ export const RouteMe: React.FC = props => {
     });
 
     const [listing /*, executeListingQuery*/] = useQuery({
-        query: viewerRepositoryQueryOne,
+        query: repositoryQueryOne,
         ...listingConfig,
     });
 
-    const handleItemClick = (name: string) => {
-        setListingConfig({ pause: false, variables: { name } });
+    const handleItemClick = ({
+        name,
+        owner,
+    }: {
+        name: string;
+        owner: string;
+    }) => {
+        setListingConfig({ pause: false, variables: { name, owner } });
     };
 
     return (
@@ -38,7 +44,10 @@ export const RouteMe: React.FC = props => {
                     ({ node }: { node: Repository }) => (
                         <SharedListing
                             onClick={() => {
-                                handleItemClick(node.name);
+                                handleItemClick({
+                                    owner: node.owner.login,
+                                    name: node.name,
+                                });
                             }}
                             key={node.id}
                             title={node.name}
