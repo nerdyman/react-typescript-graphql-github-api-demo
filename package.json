@@ -20,6 +20,17 @@
     "serve": "serve build",
     "test": "jest"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
   "dependencies": {
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
@@ -61,6 +72,8 @@
     "eslint-plugin-jest": "^22.14.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
+    "husky": "^3.0.2",
+    "lint-staged": "^9.2.1",
     "prettier": "^1.18.2",
     "serve": "^11.1.0",
     "webpack-dev-server": "^3.7.2"
