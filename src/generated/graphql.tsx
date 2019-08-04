@@ -11195,7 +11195,7 @@ export enum UserStatusOrderField {
     UpdatedAt = 'UPDATED_AT',
 }
 
-export type RepositoryOwnerFragmentFragment = {
+export type RepositoryOwnerFragment = {
     __typename?: 'Organization' | 'User';
 } & Pick<RepositoryOwner, 'id' | 'avatarUrl' | 'login' | 'url'>;
 
@@ -11213,7 +11213,7 @@ export type RepositoryFragment = { __typename?: 'Repository' } & Pick<
         >;
         owner: {
             __typename?: 'Organization' | 'User';
-        } & RepositoryOwnerFragmentFragment;
+        } & RepositoryOwnerFragment;
         stargazers: { __typename?: 'StargazerConnection' } & Pick<
             StargazerConnection,
             'totalCount'
@@ -11251,8 +11251,8 @@ export type Unnamed_1_Query = { __typename?: 'Query' } & {
         };
     };
 };
-export const repositoryOwnerFragmentFragmentDoc = gql`
-    fragment repositoryOwnerFragment on RepositoryOwner {
+export const repositoryOwnerFragmentDoc = gql`
+    fragment repositoryOwner on RepositoryOwner {
         id
         avatarUrl
         login
@@ -11269,7 +11269,7 @@ export const repositoryFragmentDoc = gql`
             name
         }
         owner {
-            ...repositoryOwnerFragment
+            ...repositoryOwner
         }
         stargazers {
             totalCount
@@ -11280,5 +11280,5 @@ export const repositoryFragmentDoc = gql`
         }
         viewerSubscription
     }
-    ${repositoryOwnerFragmentFragmentDoc}
+    ${repositoryOwnerFragmentDoc}
 `;

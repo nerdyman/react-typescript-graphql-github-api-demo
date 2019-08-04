@@ -6,8 +6,8 @@ module.exports = {
     extends: [
         'eslint:recommended',
         'plugin:jest/recommended',
-        'plugin:@typescript-eslint/recommended',
         'plugin:react/recommended',
+        'plugin:@typescript-eslint/recommended',
         'plugin:import/typescript',
         'plugin:import/errors',
         'plugin:import/warnings',
@@ -50,6 +50,7 @@ module.exports = {
         'react/jsx-filename-extension': 0,
         'react/jsx-indent': 0,
         'react/jsx-indent-props': 0,
+        'react/prop-types': 0,
 
         '@typescript-eslint/no-unused-vars': 'error',
     },

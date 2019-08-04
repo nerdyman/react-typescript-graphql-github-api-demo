@@ -1,17 +1,25 @@
 import gql from 'graphql-tag';
 
+export const repositoryOwnerFragment = gql`
+    fragment repositoryOwner on RepositoryOwner {
+        id
+        avatarUrl
+        login
+        url
+    }
+`;
+
 export const repositoryFragment = gql`
     fragment repository on Repository {
         id
         name
         url
-        descriptionHTML
+        description
         primaryLanguage {
             name
         }
         owner {
-            login
-            url
+            ...repositoryOwner
         }
         stargazers {
             totalCount
@@ -22,4 +30,6 @@ export const repositoryFragment = gql`
         }
         viewerSubscription
     }
+
+    ${repositoryOwnerFragment}
 `;
