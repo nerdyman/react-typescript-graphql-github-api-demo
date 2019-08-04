@@ -1,0 +1,3 @@
+*.json
+.prettierrc.js
+.eslintrc.js

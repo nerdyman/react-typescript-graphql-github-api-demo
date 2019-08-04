@@ -1,0 +1,68 @@
+{
+  "name": "react-typescript-graphql-github-api-demo",
+  "description": "React TypeScript Github GraphQL API demo",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "nerdyman <averynerdyman@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "homepage": "https://github.com/nerdyman/react-typescript-graphql-github-api-demo",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nerdyman/react-typescript-graphql-github-api-demo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nerdyman/react-typescript-graphql-github-api-demo/issues"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --mode development",
+    "build": "NODE_ENV=production webpack --mode production",
+    "serve": "serve build",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/jest": "^24.0.16",
+    "@types/react": "^16.8.24",
+    "@types/react-dom": "^16.8.5",
+    "babel-jest": "^24.8.0",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.1.0",
+    "dotenv": "^8.0.0",
+    "file-loader": "^4.1.0",
+    "fork-ts-checker-webpack-plugin": "^1.5.0",
+    "graphql": "^14.4.2",
+    "html-webpack-plugin": "^3.2.0",
+    "jest": "^24.8.0",
+    "mini-css-extract-plugin": "^0.8.0",
+    "normalize.css": "^8.0.1",
+    "pnp-webpack-plugin": "^1.5.0",
+    "postcss-import": "^12.0.1",
+    "postcss-loader": "^3.0.0",
+    "postcss-normalize": "^8.0.1",
+    "postcss-preset-env": "^6.7.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "style-loader": "^0.23.1",
+    "terser-webpack-plugin": "^1.4.1",
+    "typescript": "^3.5.3",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/parser": "^1.13.0",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-jest": "^22.14.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
+    "prettier": "^1.18.2",
+    "serve": "^11.1.0",
+    "webpack-dev-server": "^3.7.2"
+  }
+}

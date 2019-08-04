@@ -1,0 +1,53 @@
+@import 'normalize.css';
+
+* {
+    box-sizing: border-box;
+}
+
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+:root {
+    font-size: 16px;
+}
+
+body {
+    margin: 0;
+    font-size: 1rem;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+button,
+button[type='button'],
+button[type='reset'],
+button[type='submit'] {
+    appearance: none;
+    border: 0;
+    background-color: transparent;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: normal;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
