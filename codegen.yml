@@ -1,0 +1,15 @@
+overwrite: true
+schema:
+    - '${API_ENDPOINT}':
+          headers:
+              Authorization: 'Bearer ${API_AUTH_TOKEN}'
+documents: 'src/**/*.{ts,tsx}'
+generates:
+    src/generated/graphql.tsx:
+        plugins:
+            - 'typescript'
+            - 'typescript-operations'
+            - 'typescript-urql'
+    # ./graphql.schema.json:
+    #     plugins:
+    #         - 'introspection'
