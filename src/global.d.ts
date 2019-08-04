@@ -7,3 +7,8 @@ declare const __ENV__: {
     apiEndpoint: string;
     appTitle: string;
 };
+
+declare module '@styled-system/should-forward-prop' {
+    // eslint-disable-next-line import/no-default-export
+    export default function(props: string): boolean;
+}
