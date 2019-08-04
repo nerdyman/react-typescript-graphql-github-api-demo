@@ -1,3 +1,5 @@
+const build = require('./config/build');
+
 module.exports = {
     root: true,
 
@@ -31,7 +33,9 @@ module.exports = {
         },
     },
 
-    globals: {},
+    globals: {
+        __ENV__: 'readonly'
+    },
 
     rules: {
         'linebreak-style': ['error', 'unix'],

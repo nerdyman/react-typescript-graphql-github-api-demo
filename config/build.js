@@ -32,7 +32,12 @@ const getBuildConfig = () => {
     const dirPublic = path.join(dirRoot, 'public');
     const dirNodeModules = path.join(dirRoot, 'node_modules');
 
+    const PRODUCTION = 'production';
+    const envIsProduction = NODE_ENV === PRODUCTION;
+
     const config = {
+        envIsHot: !envIsProduction,
+        envIsProduction,
         appTitle: packageJson.description,
         dirRoot,
         dirOutput,
@@ -44,9 +49,9 @@ const getBuildConfig = () => {
         clientHost: CLIENT_HOST,
         clientPort: CLIENT_PORT,
         clientPublicUrl: CLIENT_PUBLIC_URL,
+        NODE_ENV,
     };
 
-    const PRODUCTION = 'production';
     const errors = [];
 
     if (!config.apiAuthToken) {
@@ -78,8 +83,6 @@ const getBuildConfig = () => {
         process.exit(1);
     }
 
-    config.isProduction = NODE_ENV === PRODUCTION;
-
     return config;
 };
 
@@ -89,6 +92,7 @@ const buildConfig = {
     config,
     // Config properties to expose to the client
     clientConfig: {
+        envIsHot: config.envIsHot,
         appTitle: config.appTitle,
         apiAuthToken: config.apiAuthToken,
         apiEndpoint: config.apiEndpoint,

@@ -16,20 +16,20 @@ const build = require('./config/build');
 const getWebpackConfig = () => {
     const webpackConfig = {
         context: build.config.dirRoot,
-        devtool: build.config.isProduction
+        devtool: build.config.envIsProduction
             ? 'cheap-source-map'
             : 'inline-source-map',
 
         entry: [path.join(build.config.dirSrc, 'index.tsx')],
 
         output: {
-            path: build.config.isProduction
+            path: build.config.envIsProduction
                 ? build.config.dirOutput
                 : undefined,
-            filename: build.config.isProduction
+            filename: build.config.envIsProduction
                 ? '[name].[hash:8].js'
                 : 'bundle.js',
-            chunkFilename: build.config.isProduction
+            chunkFilename: build.config.envIsProduction
                 ? '[name].[contenthash:8].chunk.js'
                 : '[name].chunk.js',
         },
@@ -55,7 +55,7 @@ const getWebpackConfig = () => {
                 {
                     test: /\.css$/,
                     use: [].concat(
-                        build.config.isProduction
+                        build.config.envIsProduction
                             ? [
                                   MiniCssExtractPlugin.loader,
                                   {
@@ -91,11 +91,12 @@ const getWebpackConfig = () => {
 
         plugins: [
             new webpack.DefinePlugin({
+                'process.env.NODE_ENV': JSON.stringify(build.config.NODE_ENV),
                 // Expose client config
                 __ENV__: JSON.stringify(build.clientConfig),
             }),
 
-            build.config.isProduction &&
+            build.config.envIsProduction &&
                 new MiniCssExtractPlugin({
                     chunkFilename: '[id].css',
                     filename: '[name].css',
@@ -107,7 +108,7 @@ const getWebpackConfig = () => {
                 hash: true,
                 inject: true,
                 // templateParameters: build.clientConfig,
-                minify: build.config.isProduction
+                minify: build.config.envIsProduction
                     ? {
                           removeComments: true,
                           collapseWhitespace: true,
@@ -120,11 +121,11 @@ const getWebpackConfig = () => {
                     : undefined,
             }),
 
-            build.config.isProduction &&
+            build.config.envIsProduction &&
                 new webpack.HotModuleReplacementPlugin(),
 
             new ForkTsCheckerWebpackPlugin({
-                async: !build.config.isProduction,
+                async: !build.config.envIsProduction,
                 // @NOTE Can't enable `useTypescriptIncrementalApi` in production
                 // until fix is released - https://github.com/microsoft/TypeScript/pull/32641
                 useTypescriptIncrementalApi: false,
@@ -143,7 +144,7 @@ const getWebpackConfig = () => {
         },
 
         optimization: {
-            minimize: build.config.isProduction,
+            minimize: build.config.envIsProduction,
             minimizer: [
                 new TerserPlugin({
                     terserOptions: {
