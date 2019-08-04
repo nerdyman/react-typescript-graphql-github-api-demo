@@ -11264,6 +11264,7 @@ export type RepositoryOneQuery = { __typename?: 'Query' } & {
 
 export type ViewerRepositoryAllQueryVariables = {
     cursor?: Maybe<Scalars['String']>;
+    first?: Maybe<Scalars['Int']>;
 };
 
 export type ViewerRepositoryAllQuery = { __typename?: 'Query' } & {
@@ -11371,10 +11372,10 @@ export const RepositoryOneComponent = (
 ) => <Urql.Query {...props} query={RepositoryOneDocument} />;
 
 export const ViewerRepositoryAllDocument = gql`
-    query viewerRepositoryAll($cursor: String) {
+    query viewerRepositoryAll($cursor: String, $first: Int = 5) {
         viewer {
             repositories(
-                first: 5
+                first: $first
                 orderBy: { direction: DESC, field: UPDATED_AT }
                 after: $cursor
             ) {
