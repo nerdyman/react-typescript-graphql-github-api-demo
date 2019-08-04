@@ -9,6 +9,7 @@ import { globalCss } from './styles/global';
 import { theme } from './styles/theme';
 import { RouteMe } from './components/RouteMe';
 import { Route404 } from './components/Route404';
+import { SharedErrorBoundary } from './components/SharedErrorBoundary';
 
 const client = createClient({
     url: __ENV__.apiEndpoint,
@@ -31,25 +32,31 @@ const routes = {
 };
 
 const App: React.FC = () => (
-    <ThemeProvider theme={theme}>
-        <Global styles={globalCss(theme)} />
-        <Provider value={client}>
-            <Router>
-                <header>
-                    <nav>
-                        <Link to={routes.me.link}>{routes.me.label}</Link>
-                        <Link to={routes.starred.link}>
-                            {routes.starred.label}
-                        </Link>
-                    </nav>
-                </header>
-                <Switch>
-                    <Route exact path={routes.me.link} component={RouteMe} />
-                    <Route component={Route404} />
-                </Switch>
-            </Router>
-        </Provider>
-    </ThemeProvider>
+    <SharedErrorBoundary>
+        <ThemeProvider theme={theme}>
+            <Global styles={globalCss(theme)} />
+            <Provider value={client}>
+                <Router>
+                    <header>
+                        <nav>
+                            <Link to={routes.me.link}>{routes.me.label}</Link>
+                            <Link to={routes.starred.link}>
+                                {routes.starred.label}
+                            </Link>
+                        </nav>
+                    </header>
+                    <Switch>
+                        <Route
+                            exact
+                            path={routes.me.link}
+                            component={RouteMe}
+                        />
+                        <Route component={Route404} />
+                    </Switch>
+                </Router>
+            </Provider>
+        </ThemeProvider>
+    </SharedErrorBoundary>
 );
 
 // eslint-disable-next-line import/no-default-export
