@@ -66,3 +66,25 @@ export const repositoryQueryOne = gql`
     }
     ${repositoryDetailFragment}
 `;
+
+export const repositoryMutationStar = gql`
+    mutation repositoryStar($id: ID!) {
+        addStar(input: { starrableId: $id }) {
+            starrable {
+                id
+                viewerHasStarred
+            }
+        }
+    }
+`;
+
+export const repositoryMutationUnstar = gql`
+    mutation repositoryUnstar($id: ID!) {
+        removeStar(input: { starrableId: $id }) {
+            starrable {
+                id
+                viewerHasStarred
+            }
+        }
+    }
+`;
