@@ -1,5 +1,6 @@
 /* eslint-env node */
-module.exports = {
+
+const postcssConfig = {
     plugins: {
         'postcss-import': {},
         'postcss-preset-env': {
@@ -11,3 +12,9 @@ module.exports = {
         'postcss-normalize': {},
     },
 };
+
+if (process.env.NODE_ENV === 'production') {
+    postcssConfig.plugins['postcss-clean'] = {};
+}
+
+module.exports = postcssConfig;
