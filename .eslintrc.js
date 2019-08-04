@@ -16,11 +16,12 @@ module.exports = {
         'prettier/@typescript-eslint',
     ],
 
-    plugins: ['@typescript-eslint'],
+    plugins: ['@typescript-eslint', 'jest'],
 
     env: {
         browser: true,
         es6: true,
+        'jest/globals': true,
     },
     parserOptions: {
         ecmaFeatures: {
