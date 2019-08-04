@@ -5,6 +5,7 @@ module.exports = {
 
     extends: [
         'eslint:recommended',
+        'plugin:jest/recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:react/recommended',
         'plugin:import/typescript',
@@ -23,6 +24,7 @@ module.exports = {
         es6: true,
         'jest/globals': true,
     },
+
     parserOptions: {
         ecmaFeatures: {
             jsx: true,
