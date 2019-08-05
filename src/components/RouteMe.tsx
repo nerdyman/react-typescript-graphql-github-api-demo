@@ -43,6 +43,7 @@ export const RouteMe: React.FC = props => {
                 listings.data.viewer.repositories.edges.map(
                     ({ node }: { node: Repository }) => (
                         <SharedListing
+                            id={node.id}
                             onClick={() => {
                                 handleItemClick({
                                     owner: node.owner.login,

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useMutation } from 'urql';
 
 import {
     Maybe,
@@ -9,11 +10,16 @@ import {
     UserConnection,
     Scalars,
 } from '../generated/graphql';
+import {
+    repositoryMutationStar,
+    repositoryMutationUnstar,
+} from '../graphql/respository';
 
 import { SharedBox } from './SharedBox';
 import { SharedButton } from './SharedButton';
 
 export interface SharedListingProps {
+    id: Starrable['id'];
     title: string;
     onClick?: (ev: React.SyntheticEvent) => void;
     description?: Maybe<Scalars['String']>;
@@ -26,7 +32,41 @@ export interface SharedListingProps {
     url: Scalars['URI'];
 }
 
+interface SharedListingStarButtonProps {
+    id: Starrable['id'];
+    viewerHasStarred: Maybe<Starrable['viewerHasStarred']>;
+}
+
+const SharedListingStarButton: React.FC<SharedListingStarButtonProps> = ({
+    id,
+    viewerHasStarred,
+    ...props
+}) => {
+    const [resStar, execStarMutation] = useMutation(repositoryMutationStar);
+    const [resUnstar, execUnstarMutation] = useMutation(
+        repositoryMutationUnstar,
+    );
+
+    const isFetching = resStar.fetching || resUnstar.fetching;
+    const label = viewerHasStarred ? 'Unstar' : 'Star';
+
+    const handleClick = () => {
+        if (viewerHasStarred) {
+            execUnstarMutation({ id });
+        } else {
+            execStarMutation({ id });
+        }
+    };
+
+    return (
+        <SharedButton {...props} disabled={isFetching} onClick={handleClick}>
+            {label}
+        </SharedButton>
+    );
+};
+
 export const SharedListing: React.FC<SharedListingProps> = ({
+    id,
     title,
     description,
     owner,
@@ -53,6 +93,6 @@ export const SharedListing: React.FC<SharedListingProps> = ({
         </ul>
         <p>{viewerHasStarred}</p>
         <p>{viewerSubscription}</p>
-        <SharedButton>Hello</SharedButton>
+        <SharedListingStarButton id={id} viewerHasStarred={viewerHasStarred} />
     </SharedBox>
 );

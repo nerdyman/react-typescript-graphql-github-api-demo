@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { SharedListing, SharedListingProps } from './SharedListing';
 
 const mockProps: SharedListingProps = {
+    id: '1234567',
     title: 'Test title',
     owner: {
         id: '123456',
