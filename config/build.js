@@ -1,6 +1,3 @@
-/* eslint-env node */
-/* eslint-disable no-console, @typescript-eslint/no-var-requires */
-
 'use strict';
 
 const path = require('path');
