@@ -10,6 +10,7 @@ import { theme } from './styles/theme';
 import { RouteMe } from './components/RouteMe';
 import { Route404 } from './components/Route404';
 import { SharedErrorBoundary } from './components/SharedErrorBoundary';
+import { SharedEmoji } from './components/SharedEmoji';
 
 const client = createClient({
     url: __ENV__.apiEndpoint,
@@ -22,12 +23,20 @@ const client = createClient({
 
 const routes = {
     me: {
-        label: 'Me',
+        label: (
+            <>
+                <SharedEmoji label="Box">📦</SharedEmoji> Repos
+            </>
+        ),
         link: '/',
     },
     starred: {
-        label: 'Starred',
-        link: '/starred',
+        label: (
+            <>
+                <SharedEmoji label="Star">🌟</SharedEmoji> Stars
+            </>
+        ),
+        link: '/Stars',
     },
 };
 
