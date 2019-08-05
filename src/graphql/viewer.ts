@@ -10,12 +10,17 @@ import {
 } from './respository';
 
 export const viewerRepositoryQueryAll = gql`
-    query viewerRepositoryAll($cursor: String, $first: Int = 5) {
+    query viewerRepositoryAll(
+        $cursor: String
+        $first: Int = 5
+        $orderByDirection: OrderDirection = ASC
+        $orderByField: RepositoryOrderField = NAME
+    ) {
         viewer {
             repositories(
-                first: $first
-                orderBy: { direction: DESC, field: UPDATED_AT }
                 after: $cursor
+                first: $first
+                orderBy: { direction: $orderByDirection, field: $orderByField }
             ) {
                 edges {
                     node {
