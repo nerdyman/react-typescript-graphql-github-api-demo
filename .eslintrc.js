@@ -42,6 +42,9 @@ module.exports = {
         'no-tabs': 0,
         semi: ['error', 'always'],
 
+        // Accessible emoji reports false positives, `SharedEmoji` component abides
+        'jsx-a11y/accessible-emoji': 0,
+
         'babel/object-curly-spacing': 0,
 
         'import/no-default-export': ['error'],

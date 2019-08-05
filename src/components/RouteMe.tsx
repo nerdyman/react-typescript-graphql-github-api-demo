@@ -4,7 +4,9 @@ import { useQuery } from 'urql';
 import { Repository } from '../generated/graphql';
 import { repositoryQueryOne } from '../graphql/respository';
 import { viewerRepositoryQueryAll } from '../graphql/viewer';
+// import { SharedButton } from '../components/SharedButton';
 import { SharedListing } from '../components/SharedListing';
+import { SharedModal, useSharedModal } from '../components/SharedModal';
 
 export const RouteMe: React.FC = props => {
     // Set initial listing variables (initially paused)
@@ -15,11 +17,13 @@ export const RouteMe: React.FC = props => {
         variables: { name: '', owner: '' },
     });
 
-    const [listings /*, executeQuery*/] = useQuery({
+    const modalProps = useSharedModal();
+
+    const [listings] = useQuery({
         query: viewerRepositoryQueryAll,
     });
 
-    const [listing /*, executeListingQuery*/] = useQuery({
+    const [listing] = useQuery({
         query: repositoryQueryOne,
         ...listingConfig,
     });
@@ -36,20 +40,27 @@ export const RouteMe: React.FC = props => {
 
     return (
         <section {...props}>
-            {listing.fetching}
+            <SharedModal {...modalProps}>
+                {listing.fetching && 'Fetching'}
+                {listing.error && 'Error'}
+                {!listing.fetching &&
+                    listing.data &&
+                    listing.data.repository.name}
+            </SharedModal>
             {listings.fetching && <div>Loading</div>}
             {listings.error && <div>Failed to load</div>}
             {listings.data &&
                 listings.data.viewer.repositories.edges.map(
                     ({ node }: { node: Repository }) => (
                         <SharedListing
-                            id={node.id}
                             onClick={() => {
                                 handleItemClick({
-                                    owner: node.owner.login,
                                     name: node.name,
+                                    owner: node.owner.login,
                                 });
+                                modalProps.toggle();
                             }}
+                            id={node.id}
                             key={node.id}
                             title={node.name}
                             description={node.description}

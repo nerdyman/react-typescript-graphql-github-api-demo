@@ -191,13 +191,25 @@ const getTheme = () => {
         {},
     );
 
+    const zIndices = {
+        negative: -1,
+        zero: 0,
+        low: 2,
+        media: 4,
+        high: 6,
+        maximum: 999,
+    };
+
     const rootTheme = {
         root: {
             fontSizes: {
                 bases: ['16px', '18px'],
             },
         },
-        zIndices: [-1, 0, 10, 20, 30],
+        zIndices: {
+            ...Object.values(zIndices),
+            ...zIndices,
+        },
         radii: ['.1rem', '.2rem', '.3rem'],
         borders: {
             borderStyles: ['solid'],
@@ -224,7 +236,8 @@ const getTheme = () => {
             uiBodyBase: rootColors.white,
             uiBodyContrast: rootColors.black,
             uiInteractiveOutlineBase: `${rootColors.purple}58`,
-            uiElementBorder: `${rootColors.blacks[5]}`,
+            uiOverlayBase: `${rootColors.black}50`,
+            uiOverlayContrast: rootColors.white,
         },
         fonts: {
             body: 'font-body-0',

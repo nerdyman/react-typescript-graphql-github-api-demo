@@ -17,31 +17,19 @@ import {
 
 import { SharedBox } from './SharedBox';
 import { SharedButton } from './SharedButton';
+import { SharedEmoji } from './SharedEmoji';
 
-export interface SharedListingProps {
-    id: Starrable['id'];
-    title: string;
-    onClick?: (ev: React.SyntheticEvent) => void;
-    description?: Maybe<Scalars['String']>;
-    owner: RepositoryOwnerFragment;
-    stargazers: Maybe<StargazerConnection['totalCount']>;
-    watchCount: Maybe<UserConnection['totalCount']>;
-    tags?: (string | null | undefined)[];
-    viewerHasStarred: Maybe<Starrable['viewerHasStarred']>;
-    viewerSubscription: Maybe<Subscribable['viewerSubscription']>;
-    url: Scalars['URI'];
-}
-
-interface SharedListingStarButtonProps {
+export interface SharedListingStarButtonProps {
     id: Starrable['id'];
     viewerHasStarred: Maybe<Starrable['viewerHasStarred']>;
 }
 
-const SharedListingStarButton: React.FC<SharedListingStarButtonProps> = ({
-    id,
-    viewerHasStarred,
-    ...props
-}) => {
+/**
+ * Toggle star/unstar
+ */
+export const SharedListingStarButton: React.FC<
+    SharedListingStarButtonProps
+> = ({ id, viewerHasStarred, ...props }) => {
     const [resStar, execStarMutation] = useMutation(repositoryMutationStar);
     const [resUnstar, execUnstarMutation] = useMutation(
         repositoryMutationUnstar,
@@ -65,7 +53,23 @@ const SharedListingStarButton: React.FC<SharedListingStarButtonProps> = ({
     );
 };
 
+export interface SharedListingProps {
+    children?: React.ReactNode;
+    id: Starrable['id'];
+    title: string;
+    onClick?: (ev: React.SyntheticEvent) => void;
+    description?: Maybe<Scalars['String']>;
+    owner: RepositoryOwnerFragment;
+    stargazers: Maybe<StargazerConnection['totalCount']>;
+    watchCount: Maybe<UserConnection['totalCount']>;
+    tags?: (string | null | undefined)[];
+    viewerHasStarred: Maybe<Starrable['viewerHasStarred']>;
+    viewerSubscription: Maybe<Subscribable['viewerSubscription']>;
+    url: Scalars['URI'];
+}
+
 export const SharedListing: React.FC<SharedListingProps> = ({
+    children,
     id,
     title,
     description,
@@ -78,12 +82,9 @@ export const SharedListing: React.FC<SharedListingProps> = ({
     url,
     ...props
 }) => (
-    <SharedBox mb="whole" p="half" {...props}>
-        <h2>
-            <a href={url} target="_blank" rel="noopener noreferrer">
-                {title}
-            </a>
-        </h2>
+    <SharedBox position="relative" mb="whole" p="half" {...props}>
+        {children}
+        <h2>{title}</h2>
         <p>{description}</p>
         <p>{owner ? owner.login : 'unknown'}</p>
         <p>{stargazers}</p>
@@ -93,6 +94,14 @@ export const SharedListing: React.FC<SharedListingProps> = ({
         </ul>
         <p>{viewerHasStarred}</p>
         <p>{viewerSubscription}</p>
-        <SharedListingStarButton id={id} viewerHasStarred={viewerHasStarred} />
+        <SharedBox position="relative">
+            <SharedListingStarButton
+                id={id}
+                viewerHasStarred={viewerHasStarred}
+            />
+            <a href={url} target="_blank" rel="noopener noreferrer">
+                <SharedEmoji label="Link">🔗</SharedEmoji> Open on GitHub
+            </a>
+        </SharedBox>
     </SharedBox>
 );
