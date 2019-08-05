@@ -18,7 +18,7 @@
     "start": "webpack-dev-server --mode development",
     "build": "NODE_ENV=production yarn bootstrap && webpack --mode production",
     "serve": "serve build",
-    "test": "NODE_ENV=test yarn bootstrap && jest",
+    "test": "yarn bootstrap && NODE_ENV=test jest",
     "bootstrap": "node ./config/scripts/bootstrap.js",
     "codegen": "graphql-codegen -r dotenv/config --config codegen.yml"
   },
