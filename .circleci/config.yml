@@ -19,4 +19,6 @@ jobs:
                       - ~/.cache/yarn
             - run:
                   name: Run Tests
-                  command: yarn test
+                  command: yarn test --collectCoverage
+            - store_artifacts:
+                  path: coverage
