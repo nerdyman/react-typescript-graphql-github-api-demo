@@ -15,4 +15,4 @@
 - ### `yarn start` <sup>(development)</sup>
   -  Start developer build
 - ### `yarn test` <sup>(development|production)</sup>
--  Run tests
+  -  Run tests
