@@ -27,3 +27,4 @@
 - Add robust tests
 - Fix linter warnings
 - Handle no repositories
+- Fix onclick event handler in SharedListingItem
