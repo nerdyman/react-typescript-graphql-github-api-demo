@@ -131,7 +131,13 @@ export const SharedListingItem: React.FC<SharedListingItemProps> = ({
             <p>{description}</p>
             <SharedBar
                 fontSize="small"
-                items={[`Stars: ${stargazers}`, `Watchers: ${watchCount}`]}
+                items={[
+                    { key: 'stars', value: `Stars: ${stargazers}` },
+                    {
+                        key: 'watchers',
+                        value: `Watchers: ${watchCount}`,
+                    },
+                ]}
             />
             <SharedListingItemInteractive>
                 <SharedListingStarButton
