@@ -28,3 +28,5 @@
 - Fix linter warnings
 - Handle no repositories
 - Fix onclick event handler in SharedListingItem
+- Add fetch more functionality
+- Add Starred page
