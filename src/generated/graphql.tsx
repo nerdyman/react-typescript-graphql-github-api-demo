@@ -11556,7 +11556,10 @@ export type RepositoryPreviewFragment = { __typename?: 'Repository' } & Pick<
     | 'viewerSubscription'
 > & {
         primaryLanguage: Maybe<
-            { __typename?: 'Language' } & Pick<Language, 'name' | 'color'>
+            { __typename?: 'Language' } & Pick<
+                Language,
+                'color' | 'id' | 'name'
+            >
         >;
         owner: {
             __typename?: 'Organization' | 'User';
@@ -11688,8 +11691,9 @@ export const repositoryPreviewFragmentDoc = gql`
         url
         description
         primaryLanguage {
-            name
             color
+            id
+            name
         }
         owner {
             ...repositoryOwner

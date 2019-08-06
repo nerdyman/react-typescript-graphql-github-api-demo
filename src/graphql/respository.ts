@@ -18,6 +18,7 @@ export const repositoryPreviewFragment = gql`
         description
         primaryLanguage {
             color
+            id
             name
         }
         owner {
