@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
+import styled from '../utilities/styled';
+
 import { SharedBox } from './SharedBox';
 
+/**
+ * Hook to control modal from parent
+ */
 export const useSharedModal = () => {
     const [visible, setVisible] = useState(false);
     const toggle = () => setVisible(visible => !visible);
@@ -43,15 +48,22 @@ export const SharedModalPortal: React.FC = ({ children, ...props }) => {
     );
 };
 
-interface SharedModalProps {
+interface UseSharedModalProps {
     visible?: boolean;
     children: React.ReactNode;
-    handleEscDown: () => void;
+    handleEscDown: (ev: any) => void;
     hide: () => void;
     toggle: () => void;
 }
 
-export const SharedModal: React.FC<SharedModalProps> = ({
+const SharedModalDialog = styled(SharedBox)`
+    width: 100%;
+    max-width: 35rem;
+    max-height: 100vh;
+    overflow-y: scroll;
+`;
+
+export const SharedModal: React.FC<UseSharedModalProps> = ({
     visible,
     children,
     handleEscDown,
@@ -83,7 +95,7 @@ export const SharedModal: React.FC<SharedModalProps> = ({
                 onClick={toggle}
                 role="presentation"
             />
-            <SharedBox
+            <SharedModalDialog
                 p="whole"
                 bg="uiBodyBase"
                 color="uiBodyContrast"
@@ -95,7 +107,7 @@ export const SharedModal: React.FC<SharedModalProps> = ({
                 tabIndex={-1}
             >
                 {children}
-            </SharedBox>
+            </SharedModalDialog>
         </SharedModalPortal>
     );
 };
