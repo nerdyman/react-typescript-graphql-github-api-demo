@@ -14,6 +14,7 @@ import {
     repositoryMutationStar,
     repositoryMutationUnstar,
 } from '../graphql/respository';
+import styled from '../utilities/styled';
 
 import { SharedBox } from './SharedBox';
 import { SharedButton } from './SharedButton';
@@ -53,7 +54,7 @@ export const SharedListingStarButton: React.FC<
     );
 };
 
-export interface SharedListingProps {
+export interface SharedListingItemProps {
     children?: React.ReactNode;
     id: Starrable['id'];
     title: string;
@@ -68,7 +69,11 @@ export interface SharedListingProps {
     url: Scalars['URI'];
 }
 
-export const SharedListing: React.FC<SharedListingProps> = ({
+const SharedListingRoot = styled(SharedBox)<{ isClickable?: boolean }>`
+    cursor: ${props => (props.isClickable ? 'pointer' : 'default')};
+`;
+
+export const SharedListingItem: React.FC<SharedListingItemProps> = ({
     children,
     id,
     title,
@@ -82,7 +87,13 @@ export const SharedListing: React.FC<SharedListingProps> = ({
     url,
     ...props
 }) => (
-    <SharedBox position="relative" mb="whole" p="half" {...props}>
+    <SharedListingRoot
+        isClickable={!!props.onClick}
+        position="relative"
+        mb="whole"
+        p="half"
+        {...props}
+    >
         {children}
         <h2>{title}</h2>
         <p>{description}</p>
@@ -103,5 +114,5 @@ export const SharedListing: React.FC<SharedListingProps> = ({
                 <SharedEmoji label="Link">🔗</SharedEmoji> Open on GitHub
             </a>
         </SharedBox>
-    </SharedBox>
+    </SharedListingRoot>
 );

@@ -5,10 +5,10 @@ import { Repository } from '../generated/graphql';
 import { repositoryQueryOne } from '../graphql/respository';
 import { viewerRepositoryQueryAll } from '../graphql/viewer';
 // import { SharedButton } from '../components/SharedButton';
-import { SharedListing } from '../components/SharedListing';
+import { SharedListingItem } from '../components/SharedListingItem';
 import { SharedModal, useSharedModal } from '../components/SharedModal';
 
-export const RouteMe: React.FC = props => {
+export const RouteRepos: React.FC = props => {
     // Set initial listing variables (initially paused)
     // @TODO Investigate possiblity of changing variables through
     //       `executeListingQuery` at runtime
@@ -52,7 +52,7 @@ export const RouteMe: React.FC = props => {
             {listings.data &&
                 listings.data.viewer.repositories.edges.map(
                     ({ node }: { node: Repository }) => (
-                        <SharedListing
+                        <SharedListingItem
                             onClick={() => {
                                 handleItemClick({
                                     name: node.name,

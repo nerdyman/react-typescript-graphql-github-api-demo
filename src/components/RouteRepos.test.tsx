@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { RouteMe } from './RouteMe';
+import { RouteRepos } from './RouteRepos';
 
 it('Should render without crashing', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<RouteMe />, div);
+    ReactDOM.render(<RouteRepos />, div);
     ReactDOM.unmountComponentAtNode(div);
 });

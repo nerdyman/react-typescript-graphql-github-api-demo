@@ -7,7 +7,7 @@ import { createClient, Provider } from 'urql';
 
 import { globalCss } from './styles/global';
 import { theme } from './styles/theme';
-import { RouteMe } from './components/RouteMe';
+import { RouteRepos } from './components/RouteRepos';
 import { Route404 } from './components/Route404';
 import { SharedErrorBoundary } from './components/SharedErrorBoundary';
 import { SharedEmoji } from './components/SharedEmoji';
@@ -30,14 +30,14 @@ const routes = {
         ),
         link: '/',
     },
-    starred: {
-        label: (
-            <>
-                <SharedEmoji label="Star">🌟</SharedEmoji> Stars
-            </>
-        ),
-        link: '/Stars',
-    },
+    // starred: {
+    //     label: (
+    //         <>
+    //             <SharedEmoji label="Star">🌟</SharedEmoji> Stars
+    //         </>
+    //     ),
+    //     link: '/Stars',
+    // },
 };
 
 const App: React.FC = () => (
@@ -49,16 +49,16 @@ const App: React.FC = () => (
                     <header>
                         <nav>
                             <Link to={routes.me.link}>{routes.me.label}</Link>
-                            <Link to={routes.starred.link}>
+                            {/* <Link to={routes.starred.link}>
                                 {routes.starred.label}
-                            </Link>
+                            </Link> */}
                         </nav>
                     </header>
                     <Switch>
                         <Route
                             exact
                             path={routes.me.link}
-                            component={RouteMe}
+                            component={RouteRepos}
                         />
                         <Route component={Route404} />
                     </Switch>

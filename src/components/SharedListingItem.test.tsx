@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { SharedListing, SharedListingProps } from './SharedListing';
+import { SharedListingItem, SharedListingItemProps } from './SharedListingItem';
 
-const mockProps: SharedListingProps = {
+const mockProps: SharedListingItemProps = {
     id: '1234567',
     title: 'Test title',
     owner: {
@@ -23,6 +23,6 @@ const mockProps: SharedListingProps = {
 
 it('Should render without crashing', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<SharedListing {...mockProps} />, div);
+    ReactDOM.render(<SharedListingItem {...mockProps} />, div);
     ReactDOM.unmountComponentAtNode(div);
 });
