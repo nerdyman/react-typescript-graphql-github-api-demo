@@ -4,17 +4,19 @@
 
 const path = require('path');
 
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const StyleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 
 const build = require('./config/build');
 
 const getWebpackConfig = () => {
     const webpackConfig = {
+        bail: build.config.envIsProduction,
         context: build.config.dirRoot,
         devtool: build.config.envIsProduction
             ? 'cheap-source-map'
@@ -23,6 +25,7 @@ const getWebpackConfig = () => {
         entry: [path.join(build.config.dirSrc, 'index.tsx')],
 
         output: {
+            publicPath: build.config.clientPublicUrl,
             path: build.config.envIsProduction
                 ? build.config.dirOutput
                 : undefined,
@@ -98,7 +101,6 @@ const getWebpackConfig = () => {
 
             build.config.envIsProduction &&
                 new MiniCssExtractPlugin({
-                    chunkFilename: '[id].css',
                     filename: '[name].css',
                 }),
 
@@ -120,6 +122,8 @@ const getWebpackConfig = () => {
                       }
                     : undefined,
             }),
+
+            build.config.envIsProduction && new StyleExtHtmlWebpackPlugin(),
 
             !build.config.envIsProduction &&
                 new webpack.HotModuleReplacementPlugin(),
