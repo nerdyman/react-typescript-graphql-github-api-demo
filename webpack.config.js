@@ -121,7 +121,7 @@ const getWebpackConfig = () => {
                     : undefined,
             }),
 
-            build.config.envIsProduction &&
+            !build.config.envIsProduction &&
                 new webpack.HotModuleReplacementPlugin(),
 
             new ForkTsCheckerWebpackPlugin({
