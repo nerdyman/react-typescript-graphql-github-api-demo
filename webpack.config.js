@@ -4,6 +4,7 @@
 
 const path = require('path');
 
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const StyleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin');
@@ -93,6 +94,7 @@ const getWebpackConfig = () => {
         },
 
         plugins: [
+            new CleanWebpackPlugin(),
             new webpack.DefinePlugin({
                 'process.env.NODE_ENV': JSON.stringify(build.config.NODE_ENV),
                 // Expose client config
@@ -173,7 +175,7 @@ const getWebpackConfig = () => {
             splitChunks: {
                 chunks: 'async',
             },
-            runtimeChunk: true,
+            runtimeChunk: 'single',
         },
 
         devServer: {
