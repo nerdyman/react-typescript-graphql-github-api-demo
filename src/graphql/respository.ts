@@ -13,9 +13,11 @@ export const repositoryPreviewFragment = gql`
     fragment repositoryPreview on Repository {
         id
         name
+        nameWithOwner
         url
         description
         primaryLanguage {
+            color
             name
         }
         owner {
@@ -39,19 +41,13 @@ export const repositoryDetailFragment = gql`
         ...repositoryPreview
         createdAt
         diskUsage
+        isArchived
+        isDisabled
+        nameWithOwner
+        updatedAt
         viewerCanAdminister
         forks {
             totalCount
-        }
-        collaborators {
-            edges {
-                node {
-                    id
-                    avatarUrl
-                    login
-                    url
-                }
-            }
         }
     }
 
