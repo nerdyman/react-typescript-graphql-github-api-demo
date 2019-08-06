@@ -5,6 +5,7 @@ import { Repository } from '../generated/graphql';
 import { repositoryQueryOne } from '../graphql/respository';
 import { viewerRepositoryQueryAll } from '../graphql/viewer';
 // import { SharedButton } from '../components/SharedButton';
+import { SharedListingDetail } from '../components/SharedListingDetail';
 import { SharedListingItem } from '../components/SharedListingItem';
 import { SharedModal, useSharedModal } from '../components/SharedModal';
 
@@ -40,13 +41,6 @@ export const RouteRepos: React.FC = props => {
 
     return (
         <section {...props}>
-            <SharedModal {...modalProps}>
-                {listing.fetching && 'Fetching'}
-                {listing.error && 'Error'}
-                {!listing.fetching &&
-                    listing.data &&
-                    listing.data.repository.name}
-            </SharedModal>
             {listings.fetching && <div>Loading</div>}
             {listings.error && <div>Failed to load</div>}
             {listings.data &&
@@ -62,7 +56,7 @@ export const RouteRepos: React.FC = props => {
                             }}
                             id={node.id}
                             key={node.id}
-                            title={node.name}
+                            title={node.nameWithOwner}
                             description={node.description}
                             owner={node.owner}
                             stargazers={node.stargazers.totalCount}
@@ -77,6 +71,13 @@ export const RouteRepos: React.FC = props => {
                         />
                     ),
                 )}
+            <SharedModal {...modalProps}>
+                {listing.fetching && 'Fetching'}
+                {listing.error && 'Error'}
+                {!listing.fetching && listing.data && (
+                    <SharedListingDetail {...listing.data.repository} />
+                )}
+            </SharedModal>
         </section>
     );
 };
