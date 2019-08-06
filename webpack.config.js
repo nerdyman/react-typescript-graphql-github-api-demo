@@ -148,14 +148,26 @@ const getWebpackConfig = () => {
             minimizer: [
                 new TerserPlugin({
                     terserOptions: {
-                        parallel: true,
-                        cache: true,
-                        sourceMap: true,
+                        parse: { ecma: 8 },
+                        compress: {
+                            ecma: 5,
+                            warnings: false,
+                            comparisons: false,
+                            inline: 2,
+                        },
+                        output: {
+                            ecma: 5,
+                            comments: false,
+                            ascii_only: true,
+                        },
                     },
+                    parallel: true,
+                    cache: true,
+                    sourceMap: true,
                 }),
             ],
             splitChunks: {
-                chunks: 'all',
+                chunks: 'async',
             },
             runtimeChunk: true,
         },
