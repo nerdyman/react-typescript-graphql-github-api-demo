@@ -30,3 +30,5 @@
 - Fix onclick event handler in SharedListingItem
 - Add fetch more functionality
 - Add Starred page
+- Tidy up components
+- Add loading screen
