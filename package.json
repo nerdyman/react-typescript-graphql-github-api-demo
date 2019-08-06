@@ -16,7 +16,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --mode development",
-    "build": "NODE_ENV=production yarn bootstrap && webpack --mode production",
+    "build": "yarn bootstrap && NODE_ENV=production webpack --mode production",
     "serve": "serve build",
     "test": "yarn bootstrap && NODE_ENV=test jest",
     "bootstrap": "node ./config/scripts/bootstrap.js",
@@ -54,6 +54,7 @@
     "@types/styled-system": "^5.0.1",
     "babel-jest": "^24.8.0",
     "babel-loader": "^8.0.6",
+    "babel-plugin-emotion": "^10.0.15",
     "css-loader": "^3.1.0",
     "dotenv": "^8.0.0",
     "emotion-theming": "^10.0.14",
@@ -82,7 +83,8 @@
     "typescript": "^3.5.3",
     "urql": "^1.2.0",
     "webpack": "^4.39.1",
-    "webpack-cli": "^3.3.6"
+    "webpack-cli": "^3.3.6",
+    "workbox-webpack-plugin": "^4.3.1"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^1.13.0",
