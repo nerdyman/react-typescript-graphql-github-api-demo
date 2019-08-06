@@ -20,15 +20,14 @@
 ## TODO
 
 - Add serviceworker for offline
-- Inline critical CSS into `head` in production build
 - Continuous deployment
 - Make it look pretty
 - Add logging service
 - Add robust tests
 - Fix linter warnings
 - Handle no repositories
-- Fix onclick event handler in SharedListingItem
 - Add fetch more functionality
 - Add Starred page
 - Tidy up components
 - Add loading screen
+- Replace emojis with icons
