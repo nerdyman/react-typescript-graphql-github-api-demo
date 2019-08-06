@@ -16,3 +16,14 @@
   -  Start developer build
 - ### `yarn test` <sup>(development|production)</sup>
   -  Run tests
+
+## TODO
+
+- Add serviceworker for offline
+- Inline critical CSS into `head` in production build
+- Continuous deployment
+- Make it look pretty
+- Add logging service
+- Add robust tests
+- Fix linter warnings
+- Handle no repositories
