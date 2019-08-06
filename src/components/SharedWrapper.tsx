@@ -1,8 +1,12 @@
-import { SharedBox } from './SharedBox';
+import styled from '../utilities/styled';
 
-export const SharedWrapper = SharedBox;
-
-SharedWrapper.defaultProps = {
-    maxWidth: 'wrapper',
-    mx: 'auto',
-};
+/**
+ * Generic wrapper for all content
+ */
+export const SharedWrapper = styled.div`
+    max-width: ${props => props.theme.breakpoints.high};
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: ${props => props.theme.space.whole};
+    padding-right: ${props => props.theme.space.whole};
+`;
