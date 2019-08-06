@@ -233,6 +233,8 @@ const getTheme = () => {
             intentNeutralBase: rootColors.blue,
             intentNeutralContrast: rootColors.white,
             // Standard UI
+            uiBannerBase: rootColors.purples[2],
+            uiBannerContrast: rootColors.white,
             uiBodyBase: rootColors.white,
             uiBodyContrast: rootColors.black,
             uiInteractiveOutlineBase: `${rootColors.purple}58`,
@@ -261,6 +263,9 @@ const getTheme = () => {
         space: {
             ...Object.values(rootSpace),
             ...rootSpace,
+        },
+        sizes: {
+            wrapper: rootBreakpoints.high,
         },
         transition: {
             ...rootTransition,
