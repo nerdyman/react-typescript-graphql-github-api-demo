@@ -43,5 +43,10 @@ export const globalCss = (theme: Theme) => css`
     h1, h2, h3, h4, h5 {
         font-family: '${theme.fonts.bodys[0]}', arial, sans-serif;
         font-weight: ${theme.fontWeights.bases[4]};
+        line-height: ${theme.lineHeights.normal};
+    }
+
+    a {
+        color: ${theme.colors.brandPrimaryBase};
     }
 `;
