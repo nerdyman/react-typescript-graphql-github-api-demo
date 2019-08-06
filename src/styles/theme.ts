@@ -106,9 +106,17 @@ const getTheme = () => {
             '#bebebe',
             '#d2d2d2',
             '#e3e3e3',
-            '#e9e9e9',
+            '#f3f3f3',
             '#f8f8f8',
             '#ffffff',
+        ],
+
+        outline: 'rgba(97, 44, 131, .35)',
+        shadow: 'rgba(0, 0, 0, 0.07)',
+        shadows: [
+            'rgba(0, 0, 0, 0.07)',
+            'rgba(0, 0, 0, 0.35)',
+            'rgba(0, 0, 0, 0.65)',
         ],
     };
 
@@ -124,11 +132,10 @@ const getTheme = () => {
         smaller: '.75rem',
         small: '.85rem',
         normal: '1rem',
-        medium: '1.3rem',
+        medium: '1.25rem',
         large: '1.6rem',
         larger: '2rem',
         largest: '2.65rem',
-        hero: '3rem',
     };
 
     const rootSpace = {
@@ -203,17 +210,17 @@ const getTheme = () => {
     const rootTheme = {
         root: {
             fontSizes: {
-                bases: ['16px', '18px'],
+                bases: ['15px', '17px'],
             },
         },
         zIndices: {
             ...Object.values(zIndices),
             ...zIndices,
         },
-        radii: ['.1rem', '.2rem', '.3rem'],
+        radii: ['.125rem', '.2rem', '.3rem'],
         borders: {
             borderStyles: ['solid'],
-            borderWidths: [0, 1, 2],
+            borderWidths: [0, '1px', '2px'],
         },
         breakpoints: {
             ...Object.values(rootBreakpoints),
@@ -223,6 +230,8 @@ const getTheme = () => {
             // Branding
             brandPrimaryBase: rootColors.purple,
             brandPrimaryContrast: rootColors.white,
+            brandPrimaryOnBase: rootColors.purples[6],
+            brandPrimaryOnContrast: rootColors.white,
             // Intents (statuses)
             intentGoodBase: rootColors.green,
             intentGoodContrast: rootColors.white,
@@ -235,10 +244,13 @@ const getTheme = () => {
             // Standard UI
             uiBannerBase: rootColors.purples[2],
             uiBannerContrast: rootColors.white,
-            uiBodyBase: rootColors.white,
+            uiBodyBase: rootColors.whites[6],
             uiBodyContrast: rootColors.black,
-            uiInteractiveOutlineBase: `${rootColors.purple}58`,
-            uiOverlayBase: `${rootColors.black}50`,
+            uiContentBorderBase: rootColors.whites[4],
+            uiContentBodyBase: rootColors.white,
+            uiContentBodyContrast: rootColors.blacks[6],
+            uiInteractiveOutlineBase: rootColors.outline,
+            uiOverlayBase: rootColors.shadows[2],
             uiOverlayContrast: rootColors.white,
         },
         fonts: {
@@ -260,12 +272,12 @@ const getTheme = () => {
         //     content: 'Only on low and up!';
         // `}`
         mediaQuery: mediaQuery as MediaQuery,
+        shadows: {
+            base: `0 0.08rem 0.15rem ${rootColors.shadow}`,
+        },
         space: {
             ...Object.values(rootSpace),
             ...rootSpace,
-        },
-        sizes: {
-            wrapper: rootBreakpoints.high,
         },
         transition: {
             ...rootTransition,
