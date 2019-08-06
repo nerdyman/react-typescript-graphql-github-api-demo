@@ -2,10 +2,11 @@
  * Build environment exposed by webpack ( via `config/build.js`)
  */
 declare const __ENV__: {
+    clientPublicUrl: string;
     envIsHot: boolean;
+    envIsProduction: boolean;
     apiAuthToken: string;
     apiEndpoint: string;
-    appTitle: string;
 };
 
 declare module '@styled-system/should-forward-prop' {

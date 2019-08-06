@@ -2,8 +2,6 @@
 
 const path = require('path');
 
-const packageJson = require('../package.json');
-
 require('dotenv').config({
     path: path.resolve(__dirname, '..', '.env'),
 });
@@ -35,7 +33,6 @@ const getBuildConfig = () => {
     const config = {
         envIsHot: !envIsProduction,
         envIsProduction,
-        appTitle: packageJson.description,
         dirRoot,
         dirOutput,
         dirSrc,
@@ -89,8 +86,9 @@ const buildConfig = {
     config,
     // Config properties to expose to the client
     clientConfig: {
+        clientPublicUrl: config.clientPublicUrl,
         envIsHot: config.envIsHot,
-        appTitle: config.appTitle,
+        envIsProduction: config.envIsProduction,
         apiAuthToken: config.apiAuthToken,
         apiEndpoint: config.apiEndpoint,
     },
