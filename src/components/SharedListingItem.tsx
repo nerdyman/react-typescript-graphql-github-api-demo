@@ -4,6 +4,7 @@ import { useMutation } from 'urql';
 import {
     Maybe,
     RepositoryOwnerFragment,
+    Language,
     StargazerConnection,
     Starrable,
     Subscribable,
@@ -15,7 +16,9 @@ import {
     repositoryMutationUnstar,
 } from '../graphql/respository';
 import styled from '../utilities/styled';
+import { getPrimaryLanguageWithFallback } from '../utilities/data';
 
+import { SharedBar } from './SharedBar';
 import { SharedBox } from './SharedBox';
 import { SharedButton } from './SharedButton';
 import { SharedEmoji } from './SharedEmoji';
@@ -38,6 +41,7 @@ export const SharedListingStarButton: React.FC<
 
     const isFetching = resStar.fetching || resUnstar.fetching;
     const label = viewerHasStarred ? 'Unstar' : 'Star';
+    const emoji = viewerHasStarred ? '💫' : '⭐';
 
     const handleClick = () => {
         if (viewerHasStarred) {
@@ -48,7 +52,12 @@ export const SharedListingStarButton: React.FC<
     };
 
     return (
-        <SharedButton {...props} disabled={isFetching} onClick={handleClick}>
+        <SharedButton
+            {...props}
+            icon={<SharedEmoji label={label}>{emoji}</SharedEmoji>}
+            disabled={isFetching}
+            onClick={handleClick}
+        >
             {label}
         </SharedButton>
     );
@@ -63,56 +72,76 @@ export interface SharedListingItemProps {
     owner: RepositoryOwnerFragment;
     stargazers: Maybe<StargazerConnection['totalCount']>;
     watchCount: Maybe<UserConnection['totalCount']>;
+    primaryLanguage?: Language;
     tags?: (string | null | undefined)[];
     viewerHasStarred: Maybe<Starrable['viewerHasStarred']>;
     viewerSubscription: Maybe<Subscribable['viewerSubscription']>;
     url: Scalars['URI'];
 }
 
-const SharedListingRoot = styled(SharedBox)<{ isClickable?: boolean }>`
+const SharedListingItemRoot = styled.section<{
+    isClickable?: boolean;
+    itemColor: string;
+}>`
+    position: relative;
+    margin-bottom: ${props => props.theme.space.whole};
+    padding: ${props => props.theme.space.whole};
+    border-top: ${props =>
+        `${props.theme.borders.borderWidths[2]} solid ${props.itemColor}`};
+    background-color: ${props => props.theme.colors.uiContentBodyBase};
+    color: ${props => props.theme.colors.uiContentBodyContrast};
     cursor: ${props => (props.isClickable ? 'pointer' : 'default')};
+    box-shadow: ${props => props.theme.shadows.base};
 `;
+
+const SharedListingItemBackDrop = styled.button`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+`;
+
+const SharedListingItemInteractive: React.FC = props => (
+    <SharedBox position="relative" display="inline-flex" {...props} />
+);
 
 export const SharedListingItem: React.FC<SharedListingItemProps> = ({
     children,
     id,
     title,
     description,
-    owner,
     stargazers,
     watchCount,
-    tags,
     viewerHasStarred,
-    viewerSubscription,
+    primaryLanguage,
+    // viewerSubscription,
     url,
+    onClick,
     ...props
-}) => (
-    <SharedListingRoot
-        isClickable={!!props.onClick}
-        position="relative"
-        mb="whole"
-        p="half"
-        {...props}
-    >
-        {children}
-        <h2>{title}</h2>
-        <p>{description}</p>
-        <p>{owner ? owner.login : 'unknown'}</p>
-        <p>{stargazers}</p>
-        <p>{watchCount}</p>
-        <ul>
-            {tags && tags.map(tag => (tag ? <li key={tag}>{tag}</li> : null))}
-        </ul>
-        <p>{viewerHasStarred}</p>
-        <p>{viewerSubscription}</p>
-        <SharedBox position="relative">
-            <SharedListingStarButton
-                id={id}
-                viewerHasStarred={viewerHasStarred}
+}) => {
+    const safePrimaryLanguage = getPrimaryLanguageWithFallback(primaryLanguage);
+
+    return (
+        <SharedListingItemRoot itemColor={safePrimaryLanguage.color} {...props}>
+            {onClick && <SharedListingItemBackDrop onClick={onClick} />}
+            {children}
+            <h2>{title}</h2>
+            <p>{description}</p>
+            <SharedBar
+                fontSize="small"
+                items={[`Stars: ${stargazers}`, `Watchers: ${watchCount}`]}
             />
-            <a href={url} target="_blank" rel="noopener noreferrer">
-                <SharedEmoji label="Link">🔗</SharedEmoji> Open on GitHub
-            </a>
-        </SharedBox>
-    </SharedListingRoot>
-);
+            <SharedListingItemInteractive>
+                <SharedListingStarButton
+                    id={id}
+                    viewerHasStarred={viewerHasStarred}
+                />
+                <a href={url} target="_blank" rel="noopener noreferrer">
+                    <SharedEmoji label="Link">🔗</SharedEmoji> View on GitHub
+                </a>
+            </SharedListingItemInteractive>
+        </SharedListingItemRoot>
+    );
+};
