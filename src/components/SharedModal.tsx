@@ -7,11 +7,17 @@ export const useSharedModal = () => {
     const [visible, setVisible] = useState(false);
     const toggle = () => setVisible(visible => !visible);
     const hide = () => setVisible(false);
+    const handleEscDown = (ev: React.KeyboardEvent) => {
+        if (ev.key === 'Escape') {
+            hide();
+        }
+    };
 
     return {
-        visible,
+        handleEscDown,
         hide,
         toggle,
+        visible,
     };
 };
 
@@ -27,8 +33,8 @@ export const SharedModalPortal: React.FC = ({ children, ...props }) => {
             position="fixed"
             top="0px"
             right="0px"
-            left="0"
-            bottom="0"
+            left="0px"
+            bottom="0px"
             {...props}
         >
             {children}
@@ -40,6 +46,7 @@ export const SharedModalPortal: React.FC = ({ children, ...props }) => {
 interface SharedModalProps {
     visible?: boolean;
     children: React.ReactNode;
+    handleEscDown: () => void;
     hide: () => void;
     toggle: () => void;
 }
@@ -47,14 +54,14 @@ interface SharedModalProps {
 export const SharedModal: React.FC<SharedModalProps> = ({
     visible,
     children,
-    hide,
+    handleEscDown,
     toggle,
     ...props
 }) => {
     useEffect(() => {
-        window.addEventListener('keydown', hide);
+        window.addEventListener('keydown', handleEscDown);
         return () => {
-            window.removeEventListener('keydown', hide);
+            window.removeEventListener('keydown', handleEscDown);
         };
     }, []);
 
