@@ -8,6 +8,24 @@ import { viewerRepositoryQueryAll } from '../graphql/viewer';
 import { SharedListingDetail } from '../components/SharedListingDetail';
 import { SharedListingItem } from '../components/SharedListingItem';
 import { SharedModal, useSharedModal } from '../components/SharedModal';
+import { SharedWrapper } from '../components/SharedWrapper';
+
+const RouteReposModal: React.FC<any> = ({ modalProps, listingConfig }) => {
+    const [listing] = useQuery({
+        query: repositoryQueryOne,
+        ...listingConfig,
+    });
+
+    return (
+        <SharedModal {...modalProps}>
+            {listing.fetching && 'Fetching'}
+            {listing.error && 'Error'}
+            {!listing.fetching && listing.data && (
+                <SharedListingDetail {...listing.data.repository} />
+            )}
+        </SharedModal>
+    );
+};
 
 export const RouteRepos: React.FC = props => {
     // Set initial listing variables (initially paused)
@@ -24,11 +42,6 @@ export const RouteRepos: React.FC = props => {
         query: viewerRepositoryQueryAll,
     });
 
-    const [listing] = useQuery({
-        query: repositoryQueryOne,
-        ...listingConfig,
-    });
-
     const handleItemClick = ({
         name,
         owner,
@@ -40,7 +53,8 @@ export const RouteRepos: React.FC = props => {
     };
 
     return (
-        <section {...props}>
+        <SharedWrapper {...props}>
+            <h1>My Repositories</h1>
             {listings.fetching && <div>Loading</div>}
             {listings.error && <div>Failed to load</div>}
             {listings.data &&
@@ -54,6 +68,7 @@ export const RouteRepos: React.FC = props => {
                                 });
                                 modalProps.toggle();
                             }}
+                            primaryLanguage={node.primaryLanguage || undefined}
                             id={node.id}
                             key={node.id}
                             title={node.nameWithOwner}
@@ -71,13 +86,10 @@ export const RouteRepos: React.FC = props => {
                         />
                     ),
                 )}
-            <SharedModal {...modalProps}>
-                {listing.fetching && 'Fetching'}
-                {listing.error && 'Error'}
-                {!listing.fetching && listing.data && (
-                    <SharedListingDetail {...listing.data.repository} />
-                )}
-            </SharedModal>
-        </section>
+            <RouteReposModal
+                modalProps={modalProps}
+                listingConfig={listingConfig}
+            />
+        </SharedWrapper>
     );
 };
