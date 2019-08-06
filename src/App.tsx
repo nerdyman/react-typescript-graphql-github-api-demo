@@ -1,5 +1,4 @@
 import { hot } from 'react-hot-loader/root';
-import { ThemeProvider } from 'emotion-theming';
 import { Global } from '@emotion/core';
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -9,9 +8,13 @@ import { globalCss } from './styles/global';
 import { theme } from './styles/theme';
 import { RouteRepos } from './components/RouteRepos';
 import { Route404 } from './components/Route404';
-import { SharedBannerHeader } from './components/SharedBannerHeader';
-import { SharedEmoji } from './components/SharedEmoji';
+import { SharedAppFooter } from './components/SharedAppFooter';
+import { SharedAppHeader } from './components/SharedAppHeader';
+import { SharedBox } from './components/SharedBox';
 import { SharedErrorBoundary } from './components/SharedErrorBoundary';
+import { SharedLayout } from './components/SharedLayout';
+import { ThemeProvider } from './ThemeProvider';
+import { config, routes } from './config';
 
 const client = createClient({
     url: __ENV__.apiEndpoint,
@@ -22,42 +25,31 @@ const client = createClient({
     }),
 });
 
-export const routes = {
-    me: {
-        label: (
-            <>
-                <SharedEmoji label="Box">📦</SharedEmoji> Repos
-            </>
-        ),
-        link: '/',
-    },
-    // starred: {
-    //     label: (
-    //         <>
-    //             <SharedEmoji label="Star">🌟</SharedEmoji> Stars
-    //         </>
-    //     ),
-    //     link: '/Stars',
-    // },
-};
-
-export type Routes = typeof routes;
-
 const App: React.FC = () => (
     <SharedErrorBoundary>
         <ThemeProvider theme={theme}>
             <Global styles={globalCss(theme)} />
             <Provider value={client}>
                 <Router>
-                    <SharedBannerHeader routes={routes} />
-                    <Switch>
-                        <Route
-                            exact
-                            path={routes.me.link}
-                            component={RouteRepos}
-                        />
-                        <Route component={Route404} />
-                    </Switch>
+                    <SharedLayout
+                        header={<SharedAppHeader routes={routes} />}
+                        footer={
+                            <SharedAppFooter>
+                                {config.repo.name}
+                            </SharedAppFooter>
+                        }
+                    >
+                        <SharedBox py="whole">
+                            <Switch>
+                                <Route
+                                    exact
+                                    path={routes.repos.link}
+                                    component={RouteRepos}
+                                />
+                                <Route component={Route404} />
+                            </Switch>
+                        </SharedBox>
+                    </SharedLayout>
                 </Router>
             </Provider>
         </ThemeProvider>
