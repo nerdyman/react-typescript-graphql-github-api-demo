@@ -8,24 +8,24 @@ import { SharedAvatar } from './SharedAvatar';
 import { SharedBox } from './SharedBox';
 import { SharedEmojiLink } from './SharedEmoji';
 
-const SharedListingDetailRoot = styled(SharedBox.withComponent('section'))`
+const RepositoryDetailRoot = styled(SharedBox.withComponent('section'))`
     min-width: 100%;
     max-width: 30rem;
 `;
 
-const SharedListingDetailHeader = styled.header`
+const RepositoryDetailHeader = styled.header`
     display: flex;
     flex-direction: column;
     align-items: center;
 `;
 
-const SharedListingDetailTitle = styled.h1`
+const RepositoryDetailTitle = styled.h1`
     margin-bottom: ${props => props.theme.space.third};
     font-size: ${props => props.theme.fontSizes.large};
     word-wrap: break-word;
 `;
 
-const SharedListingDetailDescription = styled.p`
+const RepositoryDetailDescription = styled.p`
     margin-bottom: ${props => props.theme.space.third};
     color: ${props => props.theme.colors.uiContentBodyContrast};
     word-wrap: break-word;
@@ -34,7 +34,7 @@ const SharedListingDetailDescription = styled.p`
 /**
  * Detailed listing
  */
-export const SharedListingDetail: React.FC<RepositoryDetailFragment> = ({
+export const RepositoryDetail: React.FC<RepositoryDetailFragment> = ({
     name,
     url,
     description,
@@ -53,28 +53,28 @@ export const SharedListingDetail: React.FC<RepositoryDetailFragment> = ({
     viewerCanAdminister,
     children,
     ...props
-}) => {
+}): React.ReactElement => {
     const primaryLanguageWithFallback = getPrimaryLanguageWithFallback(
         primaryLanguage,
     );
 
     return (
-        <SharedListingDetailRoot {...props}>
-            <SharedListingDetailHeader>
+        <RepositoryDetailRoot {...props}>
+            <RepositoryDetailHeader>
                 <SharedAvatar
                     avatarUrl={owner.avatarUrl}
                     login={owner.login}
                     url={owner.url}
                     mb="whole"
                 />
-                <SharedListingDetailTitle>{name}</SharedListingDetailTitle>
-                <SharedListingDetailDescription>
+                <RepositoryDetailTitle>{name}</RepositoryDetailTitle>
+                <RepositoryDetailDescription>
                     {description}
-                </SharedListingDetailDescription>
+                </RepositoryDetailDescription>
                 <a href={url} rel="noopener noreferrer">
                     <SharedEmojiLink /> View on GitHub
                 </a>
-            </SharedListingDetailHeader>
+            </RepositoryDetailHeader>
             <ul>
                 <li>
                     {stargazers.totalCount}
@@ -97,6 +97,6 @@ export const SharedListingDetail: React.FC<RepositoryDetailFragment> = ({
                 <li>{String(isDisabled)}</li>
             </ul>
             {children}
-        </SharedListingDetailRoot>
+        </RepositoryDetailRoot>
     );
 };

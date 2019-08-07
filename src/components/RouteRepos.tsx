@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useQuery } from 'urql';
 
-import { Repository } from '../generated/graphql';
+import { RepositoryPreviewFragment } from '../generated/graphql';
 import { repositoryQueryOne } from '../graphql/respository';
 import { viewerRepositoryQueryAll } from '../graphql/viewer';
-// import { SharedButton } from '../components/SharedButton';
-import { SharedListingDetail } from '../components/SharedListingDetail';
-import { SharedListingItem } from '../components/SharedListingItem';
+import { RepositoryDetail } from '../components/RepositoryDetail';
+import { RepositoryItem } from '../components/RepositoryItem';
+import { SharedItemGrid } from '../components/SharedItemGrid';
+import { SharedLayoutTitle } from '../components/SharedLayout';
 import { SharedModal, useSharedModal } from '../components/SharedModal';
 import { SharedWrapper } from '../components/SharedWrapper';
 
@@ -21,13 +22,20 @@ const RouteReposModal: React.FC<any> = ({ modalProps, listingConfig }) => {
             {listing.fetching && 'Fetching'}
             {listing.error && 'Error'}
             {!listing.fetching && listing.data && (
-                <SharedListingDetail {...listing.data.repository} />
+                <RepositoryDetail {...listing.data.repository} />
             )}
         </SharedModal>
     );
 };
 
-export const RouteRepos: React.FC = props => {
+const RouteReposTitleAfter: React.FC<{
+    error?: boolean;
+    fetching?: boolean;
+}> = ({ error, fetching }) => (
+    <>{fetching ? 'Fetching' : error ? 'Error!' : 'OK'}</>
+);
+
+export const RouteRepos: React.FC = (props): React.ReactElement => {
     // Set initial listing variables (initially paused)
     // @TODO Investigate possiblity of changing variables through
     //       `executeListingQuery` at runtime
@@ -40,6 +48,7 @@ export const RouteRepos: React.FC = props => {
 
     const [listings] = useQuery({
         query: viewerRepositoryQueryAll,
+        variables: { first: 15 },
     });
 
     const handleItemClick = ({
@@ -54,42 +63,38 @@ export const RouteRepos: React.FC = props => {
 
     return (
         <SharedWrapper {...props}>
-            <h1>My Repositories</h1>
-            {listings.fetching && <div>Loading</div>}
-            {listings.error && <div>Failed to load</div>}
-            {listings.data &&
-                listings.data.viewer.repositories.edges.map(
-                    ({ node }: { node: Repository }) => (
-                        <SharedListingItem
-                            onClick={() => {
-                                handleItemClick({
-                                    name: node.name,
-                                    owner: node.owner.login,
-                                });
-                                modalProps.toggle();
-                            }}
-                            primaryLanguage={node.primaryLanguage || undefined}
-                            id={node.id}
-                            key={node.id}
-                            title={node.nameWithOwner}
-                            description={node.description}
-                            owner={node.owner}
-                            stargazers={node.stargazers.totalCount}
-                            watchCount={node.watchers.totalCount}
-                            tags={[
-                                node.primaryLanguage &&
-                                    node.primaryLanguage.name,
-                            ]}
-                            viewerHasStarred={node.viewerHasStarred}
-                            viewerSubscription={node.viewerSubscription}
-                            url={node.url}
-                        />
-                    ),
-                )}
-            <RouteReposModal
-                modalProps={modalProps}
-                listingConfig={listingConfig}
-            />
+            <SharedLayoutTitle
+                after={
+                    <RouteReposTitleAfter
+                        fetching={listings.fetching}
+                        error={listings.error}
+                    />
+                }
+            >
+                My Repositories
+            </SharedLayoutTitle>
+            <SharedItemGrid>
+                {listings.data &&
+                    listings.data.viewer.repositories.edges.map(
+                        ({ node }: { node: RepositoryPreviewFragment }) => (
+                            <RepositoryItem
+                                key={node.id}
+                                onClick={() => {
+                                    handleItemClick({
+                                        name: node.name,
+                                        owner: node.owner.login,
+                                    });
+                                    modalProps.toggle();
+                                }}
+                                {...node}
+                            />
+                        ),
+                    )}
+                <RouteReposModal
+                    modalProps={modalProps}
+                    listingConfig={listingConfig}
+                />
+            </SharedItemGrid>
         </SharedWrapper>
     );
 };

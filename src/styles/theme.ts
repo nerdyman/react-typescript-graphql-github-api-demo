@@ -8,8 +8,8 @@ import { css, SerializedStyles } from '@emotion/core';
 const getTheme = () => {
     const rootBreakpoints = {
         lowest: '375px',
-        lower: '411px',
-        low: '600px',
+        lower: '500px',
+        low: '640px',
         medium: '800px',
         high: '1024px',
         higher: '1280px',
@@ -105,7 +105,7 @@ const getTheme = () => {
             '#aaaaaa',
             '#bebebe',
             '#d2d2d2',
-            '#e3e3e3',
+            '#eff2f4',
             '#f3f3f3',
             '#f8f8f8',
             '#ffffff',
@@ -134,8 +134,7 @@ const getTheme = () => {
         normal: '1rem',
         medium: '1.25rem',
         large: '1.6rem',
-        larger: '2rem',
-        largest: '2.65rem',
+        larger: '1.85rem',
     };
 
     const rootSpace = {
@@ -244,8 +243,9 @@ const getTheme = () => {
             // Standard UI
             uiBannerBase: rootColors.purples[2],
             uiBannerContrast: rootColors.white,
-            uiBodyBase: rootColors.whites[6],
+            uiBodyBase: rootColors.whites[5],
             uiBodyContrast: rootColors.black,
+            uiBodyAlt: rootColors.whites[4],
             uiContentBorderBase: rootColors.whites[4],
             uiContentBodyBase: rootColors.white,
             uiContentBodyContrast: rootColors.blacks[6],
@@ -260,7 +260,7 @@ const getTheme = () => {
         fontSizes: { ...Object.values(rootFontSizes), ...rootFontSizes },
         fontWeights: {
             base: 500,
-            bases: [300, 400, 500, 600, 700, 900],
+            bases: [300, 400, 500, 600, 750, 900],
         },
         lineHeights: {
             ...Object.values(rootLineHeights),
@@ -274,6 +274,7 @@ const getTheme = () => {
         mediaQuery: mediaQuery as MediaQuery,
         shadows: {
             base: `0 0.08rem 0.15rem ${rootColors.shadow}`,
+            active: `0 0.16rem 0.15rem ${rootColors.shadow}`,
         },
         space: {
             ...Object.values(rootSpace),

@@ -15,13 +15,10 @@ export const SharedButtonPrimitive: React.FC<
  * Generic styled button
  */
 export const SharedButtonRoot = styled(SharedButtonPrimitive)`
-    padding: ${props =>
-        `${props.theme.space.half} ${props.theme.space.threeQuarter}`};
-    border-radius: ${props => props.theme.radii[0]};
+    border-radius: ${props => props.theme.radii[1]};
     line-height: ${props => props.theme.lineHeights.single};
     font-weight: ${props => props.theme.fontWeights.bases[3]};
-    background-color: ${props => props.theme.colors.brandPrimaryBase};
-    color: ${props => props.theme.colors.brandPrimaryContrast};
+    color: ${props => props.theme.colors.brandPrimaryBase};
     cursor: pointer;
 
     &:focus {
@@ -47,7 +44,7 @@ export const SharedButton: React.FC<SharedButtonProps> = ({
     icon,
     children,
     ...props
-}) => (
+}): React.ReactElement => (
     <SharedButtonRoot {...props}>
         {icon && <span>{icon}</span>}
         <span>{children}</span>

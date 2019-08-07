@@ -13,7 +13,6 @@ export const repositoryPreviewFragment = gql`
     fragment repositoryPreview on Repository {
         id
         name
-        nameWithOwner
         url
         description
         primaryLanguage {
@@ -28,9 +27,6 @@ export const repositoryPreviewFragment = gql`
             totalCount
         }
         viewerHasStarred
-        watchers {
-            totalCount
-        }
         viewerSubscription
     }
 
@@ -48,6 +44,9 @@ export const repositoryDetailFragment = gql`
         updatedAt
         viewerCanAdminister
         forks {
+            totalCount
+        }
+        watchers {
             totalCount
         }
     }
