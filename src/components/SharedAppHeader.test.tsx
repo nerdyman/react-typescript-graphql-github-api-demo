@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { MemoryRouter } from 'react-router-dom';
 
 import { routes } from '../config';
 import { ThemeProvider } from '../ThemeProvider';
@@ -10,7 +11,9 @@ it('Should render without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(
         <ThemeProvider>
-            <SharedAppHeader routes={routes} />
+            <MemoryRouter>
+                <SharedAppHeader routes={routes} />
+            </MemoryRouter>
         </ThemeProvider>,
         div,
     );

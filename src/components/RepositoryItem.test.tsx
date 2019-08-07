@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import { ThemeProvider } from '../ThemeProvider';
+
 import { RepositoryItem, RepositoryItemProps } from './RepositoryItem';
 
 const mockProps: RepositoryItemProps = {
@@ -27,6 +29,11 @@ const mockProps: RepositoryItemProps = {
 
 it('should render without crashing', (): void => {
     const div = document.createElement('div');
-    ReactDOM.render(<RepositoryItem {...mockProps} />, div);
+    ReactDOM.render(
+        <ThemeProvider>
+            <RepositoryItem {...mockProps} />
+        </ThemeProvider>,
+        div,
+    );
     ReactDOM.unmountComponentAtNode(div);
 });
