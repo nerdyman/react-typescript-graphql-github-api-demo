@@ -15,6 +15,10 @@
     "url": "https://github.com/nerdyman/react-typescript-graphql-github-api-demo/issues"
   },
   "scripts": {
+    "docker:bootstrap": "node ./config/scripts/docker bootstrap",
+    "docker:build": "node ./config/scripts/docker build",
+    "docker:start": "node ./config/scripts/docker start",
+    "docker:test": "node ./config/scripts/docker test",
     "start": "webpack-dev-server --mode development",
     "build": "yarn bootstrap && NODE_ENV=production webpack --mode production",
     "serve": "serve build",
