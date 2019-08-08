@@ -6,13 +6,18 @@ import styled from '../utilities/styled';
 const SharedAvatarRoot = styled.a`
     ${space}
     display: block;
+    width: 4rem;
+    height: 4rem;
+    background-image: url('https://via.placeholder.com/240x240?text=...');
+    background-size: cover;
+    border-radius: 100%;
+    background-color: ${props => props.theme.colors.uiBodyBase};
+    overflow: hidden;
 `;
 
 const SharedAvatarImg = styled.img`
-    width: 4rem;
-    height: 4rem;
-    background-color: ${props => props.theme.colors.uiBodyBase};
-    border-radius: 100%;
+    width: 100%;
+    height: 100%;
 `;
 
 interface SharedAvatarProps extends SpaceProps {

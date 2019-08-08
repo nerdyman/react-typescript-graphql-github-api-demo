@@ -8,8 +8,6 @@ import { SharedBox } from './SharedBox';
 import { SharedNetworkStatusIndicator } from './SharedNetworkStatusIndicator';
 import { SharedWrapper } from './SharedWrapper';
 
-const SharedAppHeaderRoot = SharedBox.withComponent('header');
-
 const SharedAppHeaderWrapper = styled(SharedWrapper)`
     display: flex;
     justify-content: space-between;
@@ -22,11 +20,10 @@ export const SharedAppHeader: React.FC<{ routes: Routes }> = ({
     routes,
     ...props
 }) => (
-    <SharedAppHeaderRoot
+    <SharedBox
         bg="uiBannerBase"
         color="uiBannerContrast"
         py="threeQuarter"
-        role="banner"
         {...props}
     >
         <SharedAppHeaderWrapper>
@@ -43,5 +40,5 @@ export const SharedAppHeader: React.FC<{ routes: Routes }> = ({
             </nav>
             <SharedNetworkStatusIndicator />
         </SharedAppHeaderWrapper>
-    </SharedAppHeaderRoot>
+    </SharedBox>
 );

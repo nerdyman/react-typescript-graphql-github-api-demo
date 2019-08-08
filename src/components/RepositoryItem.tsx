@@ -4,10 +4,12 @@ import { RepositoryPreviewFragment } from '../generated/graphql';
 import styled from '../utilities/styled';
 import { getPrimaryLanguageWithFallback } from '../utilities/data';
 
-import { RepositoryButtonStar } from './RepositoryButtonStar';
+import {
+    RepositoryButtonToggleStar,
+    RepositoryButtonToggleSubscibe,
+} from './RepositoryButtonToggle';
 import { SharedAvatar } from './SharedAvatar';
 import { SharedBox, SharedBoxProps } from './SharedBox';
-import { SharedEmoji } from './SharedEmoji';
 
 const RepositoryItemRoot = styled.section`
     ${props => props.theme.transition.call('box-shadow, transform')}
@@ -52,14 +54,14 @@ const RepositoryItemTitle = styled.h2`
     ${props => props.theme.transition.call('color')}
     max-width: 16rem;
     font-size: ${props => props.theme.fontSizes.medium};
-    margin-bottom: ${props => props.theme.space.threeQuarter};
-    color: var(--title-color);
+    margin-bottom: ${props => props.theme.space.half};
+    color: ${props => props.theme.colors.uiBodyContrast};
 `;
 
 const RepositoryItemDescription = styled.p`
     max-width: 16rem;
     font-size: ${props => props.theme.fontSizes.small};
-    margin-bottom: ${props => props.theme.space.whole};
+    margin-bottom: ${props => props.theme.space.half};
 `;
 
 const RepositoryItemInteractive: React.FC<SharedBoxProps> = props => (
@@ -79,8 +81,10 @@ export const RepositoryItem: React.FC<RepositoryItemProps> = ({
     stargazers,
     viewerHasStarred,
     primaryLanguage,
-    // viewerSubscription,
-    url,
+    viewerCanSubscribe,
+    viewerSubscription,
+    watchers,
+    // url,
     onClick,
     ...props
 }): React.ReactElement => {
@@ -101,14 +105,23 @@ export const RepositoryItem: React.FC<RepositoryItemProps> = ({
                 position="relative"
                 display="flex"
                 justifyContent="flex-end"
-                width="100%"
+                marginLeft="auto"
             >
-                <RepositoryButtonStar
+                <RepositoryButtonToggleStar
+                    disabled={true}
+                    title="Disabled to prevent you from losing your stars"
                     id={id}
                     viewerHasStarred={viewerHasStarred}
                 >
                     {stargazers.totalCount}
-                </RepositoryButtonStar>
+                </RepositoryButtonToggleStar>
+                <RepositoryButtonToggleSubscibe
+                    id={id}
+                    viewerCanSubscribe={viewerCanSubscribe}
+                    viewerSubscription={viewerSubscription}
+                >
+                    {watchers.totalCount}
+                </RepositoryButtonToggleSubscibe>
             </SharedBox>
             <RepositoryItemAvatar {...owner} />
             {/*
@@ -123,12 +136,15 @@ export const RepositoryItem: React.FC<RepositoryItemProps> = ({
                     {description}
                 </RepositoryItemDescription>
             )}
-            <RepositoryItemInteractive flexGrow={1} alignItems="flex-end">
-                {children}
-                <a href={url} target="_blank" rel="noopener noreferrer">
-                    <SharedEmoji label="Link">🔗</SharedEmoji> View on GitHub
-                </a>
-            </RepositoryItemInteractive>
+            {children && (
+                <RepositoryItemInteractive
+                    marginTop="auto"
+                    paddingTop="whole"
+                    alignItems="flex-end"
+                >
+                    {children}
+                </RepositoryItemInteractive>
+            )}
         </RepositoryItemRoot>
     );
 };

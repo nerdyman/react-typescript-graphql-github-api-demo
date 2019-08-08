@@ -14802,20 +14802,25 @@ export type RepositoryPreviewFragment = { __typename?: 'Repository' } & Pick<
     | 'name'
     | 'url'
     | 'description'
+    | 'viewerCanSubscribe'
     | 'viewerHasStarred'
     | 'viewerSubscription'
 > & {
+        owner: {
+            __typename?: 'Organization' | 'User';
+        } & RepositoryOwnerFragment;
         primaryLanguage: Maybe<
             { __typename?: 'Language' } & Pick<
                 Language,
                 'color' | 'id' | 'name'
             >
         >;
-        owner: {
-            __typename?: 'Organization' | 'User';
-        } & RepositoryOwnerFragment;
         stargazers: { __typename?: 'StargazerConnection' } & Pick<
             StargazerConnection,
+            'totalCount'
+        >;
+        watchers: { __typename?: 'UserConnection' } & Pick<
+            UserConnection,
             'totalCount'
         >;
     };
@@ -14832,10 +14837,6 @@ export type RepositoryDetailFragment = { __typename?: 'Repository' } & Pick<
 > & {
         forks: { __typename?: 'RepositoryConnection' } & Pick<
             RepositoryConnection,
-            'totalCount'
-        >;
-        watchers: { __typename?: 'UserConnection' } & Pick<
-            UserConnection,
             'totalCount'
         >;
     } & RepositoryPreviewFragment;
@@ -14883,6 +14884,33 @@ export type RepositoryUnstarMutation = { __typename?: 'Mutation' } & {
     >;
 };
 
+export type RepositoryUpdateSubscriptionMutationVariables = {
+    id: Scalars['ID'];
+    viewerSubscription: SubscriptionState;
+};
+
+export type RepositoryUpdateSubscriptionMutation = {
+    __typename?: 'Mutation';
+} & {
+    updateSubscription: Maybe<
+        { __typename?: 'UpdateSubscriptionPayload' } & Pick<
+            UpdateSubscriptionPayload,
+            'clientMutationId'
+        > & {
+                subscribable: Maybe<
+                    {
+                        __typename?:
+                            | 'Issue'
+                            | 'PullRequest'
+                            | 'Repository'
+                            | 'Team'
+                            | 'Commit';
+                    } & Pick<Subscribable, 'viewerSubscription'>
+                >;
+            }
+    >;
+};
+
 export type ViewerRepositoryAllQueryVariables = {
     cursor?: Maybe<Scalars['String']>;
     first?: Maybe<Scalars['Int']>;
@@ -14902,6 +14930,35 @@ export type ViewerRepositoryAllQuery = { __typename?: 'Query' } & {
                                     __typename?: 'Repository';
                                 } & RepositoryPreviewFragment
                             >;
+                        }
+                    >
+                >
+            >;
+            pageInfo: { __typename?: 'PageInfo' } & Pick<
+                PageInfo,
+                'endCursor' | 'hasNextPage'
+            >;
+        };
+    };
+};
+
+export type ViewerRepositoryStarredAllQueryVariables = {
+    cursor?: Maybe<Scalars['String']>;
+    first?: Maybe<Scalars['Int']>;
+    orderByDirection?: Maybe<OrderDirection>;
+    orderByField?: Maybe<StarOrderField>;
+};
+
+export type ViewerRepositoryStarredAllQuery = { __typename?: 'Query' } & {
+    viewer: { __typename?: 'User' } & {
+        starredRepositories: { __typename?: 'StarredRepositoryConnection' } & {
+            edges: Maybe<
+                Array<
+                    Maybe<
+                        { __typename?: 'StarredRepositoryEdge' } & {
+                            node: {
+                                __typename?: 'Repository';
+                            } & RepositoryPreviewFragment;
                         }
                     >
                 >
@@ -14939,19 +14996,23 @@ export const repositoryPreviewFragmentDoc = gql`
         name
         url
         description
+        viewerCanSubscribe
+        viewerHasStarred
+        viewerSubscription
+        owner {
+            ...repositoryOwner
+        }
         primaryLanguage {
             color
             id
             name
         }
-        owner {
-            ...repositoryOwner
-        }
         stargazers {
             totalCount
         }
-        viewerHasStarred
-        viewerSubscription
+        watchers {
+            totalCount
+        }
     }
     ${repositoryOwnerFragmentDoc}
 `;
@@ -14966,9 +15027,6 @@ export const repositoryDetailFragmentDoc = gql`
         updatedAt
         viewerCanAdminister
         forks {
-            totalCount
-        }
-        watchers {
             totalCount
         }
     }
@@ -15032,6 +15090,32 @@ export const RepositoryUnstarComponent = (
     > & { variables?: RepositoryUnstarMutationVariables },
 ) => <Urql.Mutation {...props} query={RepositoryUnstarDocument} />;
 
+export const RepositoryUpdateSubscriptionDocument = gql`
+    mutation repositoryUpdateSubscription(
+        $id: ID!
+        $viewerSubscription: SubscriptionState!
+    ) {
+        updateSubscription(
+            input: { state: $viewerSubscription, subscribableId: $id }
+        ) {
+            clientMutationId
+            subscribable {
+                viewerSubscription
+            }
+        }
+    }
+`;
+
+export const RepositoryUpdateSubscriptionComponent = (
+    props: Omit<
+        Urql.MutationProps<
+            RepositoryUpdateSubscriptionMutation,
+            RepositoryUpdateSubscriptionMutationVariables
+        >,
+        'query'
+    > & { variables?: RepositoryUpdateSubscriptionMutationVariables },
+) => <Urql.Mutation {...props} query={RepositoryUpdateSubscriptionDocument} />;
+
 export const ViewerRepositoryAllDocument = gql`
     query viewerRepositoryAll(
         $cursor: String
@@ -15069,6 +15153,44 @@ export const ViewerRepositoryAllComponent = (
         'query'
     > & { variables?: ViewerRepositoryAllQueryVariables },
 ) => <Urql.Query {...props} query={ViewerRepositoryAllDocument} />;
+
+export const ViewerRepositoryStarredAllDocument = gql`
+    query viewerRepositoryStarredAll(
+        $cursor: String
+        $first: Int = 5
+        $orderByDirection: OrderDirection = ASC
+        $orderByField: StarOrderField = STARRED_AT
+    ) {
+        viewer {
+            starredRepositories(
+                after: $cursor
+                first: $first
+                orderBy: { direction: $orderByDirection, field: $orderByField }
+            ) {
+                edges {
+                    node {
+                        ...repositoryPreview
+                    }
+                }
+                pageInfo {
+                    endCursor
+                    hasNextPage
+                }
+            }
+        }
+    }
+    ${repositoryPreviewFragmentDoc}
+`;
+
+export const ViewerRepositoryStarredAllComponent = (
+    props: Omit<
+        Urql.QueryProps<
+            ViewerRepositoryStarredAllQuery,
+            ViewerRepositoryStarredAllQueryVariables
+        >,
+        'query'
+    > & { variables?: ViewerRepositoryStarredAllQueryVariables },
+) => <Urql.Query {...props} query={ViewerRepositoryStarredAllDocument} />;
 
 export const ViewerRepositoryOneDocument = gql`
     query viewerRepositoryOne($name: String!) {

@@ -1,8 +1,14 @@
 import { Repository } from '../generated/graphql';
 import { theme } from '../styles/theme';
 
-export const getPrimaryLanguageWithFallbackFallbacks = {
-    id: null,
+interface GetPrimaryLanguageWithFallbackDefaults {
+    id: string;
+    color: string;
+    name: string;
+}
+
+export const getPrimaryLanguageWithFallbackDefaults: GetPrimaryLanguageWithFallbackDefaults = {
+    id: '',
     color: theme.colors.brandPrimaryBase,
     name: 'unknown',
 };
@@ -12,17 +18,17 @@ export const getPrimaryLanguageWithFallbackFallbacks = {
  */
 export const getPrimaryLanguageWithFallback = (
     primaryLanguage: Repository['primaryLanguage'],
-) => ({
+): GetPrimaryLanguageWithFallbackDefaults => ({
     id:
         primaryLanguage && primaryLanguage.id
             ? primaryLanguage.id
-            : getPrimaryLanguageWithFallbackFallbacks.id,
+            : getPrimaryLanguageWithFallbackDefaults.id,
     color:
         primaryLanguage && primaryLanguage.color
             ? primaryLanguage.color
-            : getPrimaryLanguageWithFallbackFallbacks.color,
+            : getPrimaryLanguageWithFallbackDefaults.color,
     name:
         primaryLanguage && primaryLanguage.name
             ? primaryLanguage.name
-            : getPrimaryLanguageWithFallbackFallbacks.name,
+            : getPrimaryLanguageWithFallbackDefaults.name,
 });

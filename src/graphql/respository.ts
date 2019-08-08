@@ -15,19 +15,23 @@ export const repositoryPreviewFragment = gql`
         name
         url
         description
+        viewerCanSubscribe
+        viewerHasStarred
+        viewerSubscription
+        owner {
+            ...repositoryOwner
+        }
         primaryLanguage {
             color
             id
             name
         }
-        owner {
-            ...repositoryOwner
-        }
         stargazers {
             totalCount
         }
-        viewerHasStarred
-        viewerSubscription
+        watchers {
+            totalCount
+        }
     }
 
     ${repositoryOwnerFragment}
@@ -44,9 +48,6 @@ export const repositoryDetailFragment = gql`
         updatedAt
         viewerCanAdminister
         forks {
-            totalCount
-        }
-        watchers {
             totalCount
         }
     }
@@ -80,6 +81,22 @@ export const repositoryMutationUnstar = gql`
             starrable {
                 id
                 viewerHasStarred
+            }
+        }
+    }
+`;
+
+export const repositoryMutationUpdateSubscription = gql`
+    mutation repositoryUpdateSubscription(
+        $id: ID!
+        $viewerSubscription: SubscriptionState!
+    ) {
+        updateSubscription(
+            input: { state: $viewerSubscription, subscribableId: $id }
+        ) {
+            clientMutationId
+            subscribable {
+                viewerSubscription
             }
         }
     }

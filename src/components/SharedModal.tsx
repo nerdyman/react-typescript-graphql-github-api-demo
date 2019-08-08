@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import styled from '../utilities/styled';
 
-import { SharedBox } from './SharedBox';
+import { SharedBox, SharedBoxProps } from './SharedBox';
 
 /**
  * Hook to control modal from parent
@@ -47,6 +47,10 @@ export const SharedModalPortal: React.FC = ({ children, ...props }) => {
         document.body,
     );
 };
+
+export const SharedModalFiller: React.FC<SharedBoxProps> = props => (
+    <SharedBox py="double" width="100%" textAlign="center" {...props} />
+);
 
 interface UseSharedModalProps {
     visible?: boolean;

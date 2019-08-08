@@ -11,6 +11,8 @@ import { SharedEmojiLink } from './SharedEmoji';
 const RepositoryDetailRoot = styled(SharedBox.withComponent('section'))`
     min-width: 100%;
     max-width: 30rem;
+    color: ${props => props.theme.colors.uiContentBodyContrast};
+    text-align: center;
 `;
 
 const RepositoryDetailHeader = styled.header`
@@ -19,16 +21,15 @@ const RepositoryDetailHeader = styled.header`
     align-items: center;
 `;
 
-const RepositoryDetailTitle = styled.h1`
+const RepositoryDetailText = styled.p`
+    max-width: 24rem;
     margin-bottom: ${props => props.theme.space.third};
-    font-size: ${props => props.theme.fontSizes.large};
     word-wrap: break-word;
 `;
 
-const RepositoryDetailDescription = styled.p`
-    margin-bottom: ${props => props.theme.space.third};
-    color: ${props => props.theme.colors.uiContentBodyContrast};
-    word-wrap: break-word;
+const RepositoryDetailTitle = styled(RepositoryDetailText.withComponent('h1'))`
+    font-size: ${props => props.theme.fontSizes.large};
+    color: ${props => props.theme.colors.uiBodyContrast};
 `;
 
 /**
@@ -45,7 +46,7 @@ export const RepositoryDetail: React.FC<RepositoryDetailFragment> = ({
     watchers,
     // viewerSubscription,
     createdAt,
-    // diskUsage,
+    diskUsage,
     isArchived,
     isDisabled,
     // nameWithOwner,
@@ -68,9 +69,7 @@ export const RepositoryDetail: React.FC<RepositoryDetailFragment> = ({
                     mb="whole"
                 />
                 <RepositoryDetailTitle>{name}</RepositoryDetailTitle>
-                <RepositoryDetailDescription>
-                    {description}
-                </RepositoryDetailDescription>
+                <RepositoryDetailText>{description}</RepositoryDetailText>
                 <a href={url} rel="noopener noreferrer">
                     <SharedEmojiLink /> View on GitHub
                 </a>
@@ -81,6 +80,7 @@ export const RepositoryDetail: React.FC<RepositoryDetailFragment> = ({
                     {viewerHasStarred}
                 </li>
                 <li>{watchers.totalCount}</li>
+                <li>{diskUsage}</li>
                 <li>{createdAt}</li>
                 <li>{updatedAt}</li>
                 <li>{String(isArchived)}</li>

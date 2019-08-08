@@ -3,6 +3,7 @@ import styled from '../utilities/styled';
 export const SharedItemGrid = styled.div`
     display: grid;
     grid-gap: ${props => props.theme.space.whole};
+    grid-auto-rows: 1fr;
 
     ${props => props.theme.mediaQuery.lower`
         grid-template-columns: repeat(2, 1fr);

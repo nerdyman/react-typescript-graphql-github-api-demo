@@ -2,7 +2,7 @@ import * as data from './data';
 
 it('should use fallback values', () => {
     expect(data.getPrimaryLanguageWithFallback(null)).toMatchObject(
-        data.getPrimaryLanguageWithFallbackFallbacks,
+        data.getPrimaryLanguageWithFallbackDefaults,
     );
 });
 

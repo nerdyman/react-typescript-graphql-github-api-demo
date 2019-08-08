@@ -2,7 +2,9 @@ import React from 'react';
 
 import styled from '../utilities/styled';
 
-type SharedButtonPrimitiveProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
+export type SharedButtonPrimitiveProps = React.ButtonHTMLAttributes<
+    HTMLButtonElement
+>;
 
 /**
  * Generic unstyled button
@@ -26,7 +28,7 @@ export const SharedButtonRoot = styled(SharedButtonPrimitive)`
         outline-offset: -1px;
     }
 
-    &:active {
+    &:active:not([disabled]) {
         transform: translateY(${props => props.theme.space.nudge});
     }
 

@@ -38,6 +38,35 @@ export const viewerRepositoryQueryAll = gql`
     ${repositoryPreviewFragment}
 `;
 
+export const viewerRepositoryStarredQueryAll = gql`
+    query viewerRepositoryStarredAll(
+        $cursor: String
+        $first: Int = 5
+        $orderByDirection: OrderDirection = ASC
+        $orderByField: StarOrderField = STARRED_AT
+    ) {
+        viewer {
+            starredRepositories(
+                after: $cursor
+                first: $first
+                orderBy: { direction: $orderByDirection, field: $orderByField }
+            ) {
+                edges {
+                    node {
+                        ...repositoryPreview
+                    }
+                }
+                pageInfo {
+                    endCursor
+                    hasNextPage
+                }
+            }
+        }
+    }
+
+    ${repositoryPreviewFragment}
+`;
+
 export const viewerRepositoryQueryOne = gql`
     query viewerRepositoryOne($name: String!) {
         viewer {

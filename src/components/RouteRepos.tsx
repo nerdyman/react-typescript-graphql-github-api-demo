@@ -3,12 +3,16 @@ import { useQuery } from 'urql';
 
 import { RepositoryPreviewFragment } from '../generated/graphql';
 import { repositoryQueryOne } from '../graphql/respository';
-import { viewerRepositoryQueryAll } from '../graphql/viewer';
+import { viewerRepositoryStarredQueryAll } from '../graphql/viewer';
 import { RepositoryDetail } from '../components/RepositoryDetail';
 import { RepositoryItem } from '../components/RepositoryItem';
 import { SharedItemGrid } from '../components/SharedItemGrid';
 import { SharedLayoutTitle } from '../components/SharedLayout';
-import { SharedModal, useSharedModal } from '../components/SharedModal';
+import {
+    SharedModal,
+    SharedModalFiller,
+    useSharedModal,
+} from '../components/SharedModal';
 import { SharedWrapper } from '../components/SharedWrapper';
 
 const RouteReposModal: React.FC<any> = ({
@@ -22,8 +26,12 @@ const RouteReposModal: React.FC<any> = ({
 
     return (
         <SharedModal {...modalProps}>
-            {listing.fetching && 'Fetching'}
-            {listing.error && 'Error'}
+            {listing.fetching && (
+                <SharedModalFiller>Loading&hellip;</SharedModalFiller>
+            )}
+            {listing.error && (
+                <SharedModalFiller>Unable to load content</SharedModalFiller>
+            )}
             {!listing.fetching && listing.data && (
                 <RepositoryDetail {...listing.data.repository} />
             )}
@@ -55,7 +63,7 @@ export const RouteRepos: React.FC = (props): React.ReactElement => {
     const modalProps = useSharedModal();
 
     const [listings] = useQuery({
-        query: viewerRepositoryQueryAll,
+        query: viewerRepositoryStarredQueryAll,
         variables: listingsVariables,
     });
 
@@ -63,7 +71,8 @@ export const RouteRepos: React.FC = (props): React.ReactElement => {
         if (!listings.fetching && listings.data) {
             setListingsVariables(prevState => ({
                 ...prevState,
-                cursor: listings.data.viewer.repositories.pageInfo.endCursor,
+                cursor:
+                    listings.data.viewer.starredRepositories.pageInfo.endCursor,
             }));
         }
     };
@@ -81,7 +90,7 @@ export const RouteRepos: React.FC = (props): React.ReactElement => {
     const canFetchMore =
         !listings.fetching &&
         !!listings.data &&
-        listings.data.viewer.repositories.pageInfo.hasNextPage;
+        listings.data.viewer.starredRepositories.pageInfo.hasNextPage;
 
     return (
         <SharedWrapper {...props}>
@@ -93,11 +102,11 @@ export const RouteRepos: React.FC = (props): React.ReactElement => {
                     />
                 }
             >
-                My Repositories
+                My Starred Repositories
             </SharedLayoutTitle>
             <SharedItemGrid>
                 {listings.data &&
-                    listings.data.viewer.repositories.edges.map(
+                    listings.data.viewer.starredRepositories.edges.map(
                         ({
                             node,
                         }: {
