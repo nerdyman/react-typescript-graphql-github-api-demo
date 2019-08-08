@@ -29,11 +29,12 @@ export const SharedAvatar: React.SFC<SharedAvatarProps> = ({
     login,
     url,
     ...props
-}) => (
+}): React.ReactElement => (
     <SharedAvatarRoot
         target="_blank"
         rel="noopener noreferrer"
         href={url}
+        title={login}
         {...props}
     >
         <SharedAvatarImg src={avatarUrl} alt={login} />

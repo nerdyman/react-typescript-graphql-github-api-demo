@@ -15,6 +15,10 @@
     "url": "https://github.com/nerdyman/react-typescript-graphql-github-api-demo/issues"
   },
   "scripts": {
+    "docker:bootstrap": "node ./config/scripts/docker bootstrap",
+    "docker:build": "node ./config/scripts/docker build",
+    "docker:start": "node ./config/scripts/docker start",
+    "docker:test": "node ./config/scripts/docker test",
     "start": "webpack-dev-server --mode development",
     "build": "yarn bootstrap && NODE_ENV=production webpack --mode production",
     "serve": "serve build",
@@ -59,6 +63,7 @@
     "css-loader": "^3.1.0",
     "dotenv": "^8.0.0",
     "emotion-theming": "^10.0.14",
+    "eslint-loader": "^2.2.1",
     "file-loader": "^4.1.0",
     "fork-ts-checker-webpack-plugin": "^1.5.0",
     "graphql": "^14.4.2",
