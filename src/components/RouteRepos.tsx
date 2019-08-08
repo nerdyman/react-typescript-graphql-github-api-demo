@@ -11,7 +11,10 @@ import { SharedLayoutTitle } from '../components/SharedLayout';
 import { SharedModal, useSharedModal } from '../components/SharedModal';
 import { SharedWrapper } from '../components/SharedWrapper';
 
-const RouteReposModal: React.FC<any> = ({ modalProps, listingConfig }) => {
+const RouteReposModal: React.FC<any> = ({
+    modalProps,
+    listingConfig,
+}): React.ReactElement => {
     const [listing] = useQuery({
         query: repositoryQueryOne,
         ...listingConfig,
@@ -29,9 +32,9 @@ const RouteReposModal: React.FC<any> = ({ modalProps, listingConfig }) => {
 };
 
 const RouteReposTitleAfter: React.FC<{
-    error?: boolean;
+    error?: any;
     fetching?: boolean;
-}> = ({ error, fetching }) => (
+}> = ({ error, fetching }): React.ReactElement => (
     <>{fetching ? 'Fetching' : error ? 'Error!' : 'OK'}</>
 );
 
@@ -44,12 +47,26 @@ export const RouteRepos: React.FC = (props): React.ReactElement => {
         variables: { name: '', owner: '' },
     });
 
+    const [listingsVariables, setListingsVariables] = useState({
+        cursor: null,
+        first: 6,
+    });
+
     const modalProps = useSharedModal();
 
     const [listings] = useQuery({
         query: viewerRepositoryQueryAll,
-        variables: { first: 15 },
+        variables: listingsVariables,
     });
+
+    const handleFetchMore = (): void => {
+        if (!listings.fetching && listings.data) {
+            setListingsVariables(prevState => ({
+                ...prevState,
+                cursor: listings.data.viewer.repositories.pageInfo.endCursor,
+            }));
+        }
+    };
 
     const handleItemClick = ({
         name,
@@ -57,9 +74,14 @@ export const RouteRepos: React.FC = (props): React.ReactElement => {
     }: {
         name: string;
         owner: string;
-    }) => {
+    }): void => {
         setListingConfig({ pause: false, variables: { name, owner } });
     };
+
+    const canFetchMore =
+        !listings.fetching &&
+        !!listings.data &&
+        listings.data.viewer.repositories.pageInfo.hasNextPage;
 
     return (
         <SharedWrapper {...props}>
@@ -76,10 +98,14 @@ export const RouteRepos: React.FC = (props): React.ReactElement => {
             <SharedItemGrid>
                 {listings.data &&
                     listings.data.viewer.repositories.edges.map(
-                        ({ node }: { node: RepositoryPreviewFragment }) => (
+                        ({
+                            node,
+                        }: {
+                            node: RepositoryPreviewFragment;
+                        }): React.ReactElement => (
                             <RepositoryItem
                                 key={node.id}
-                                onClick={() => {
+                                onClick={(): void => {
                                     handleItemClick({
                                         name: node.name,
                                         owner: node.owner.login,
@@ -95,6 +121,9 @@ export const RouteRepos: React.FC = (props): React.ReactElement => {
                     listingConfig={listingConfig}
                 />
             </SharedItemGrid>
+            <button disabled={!canFetchMore} onClick={handleFetchMore}>
+                Load more
+            </button>
         </SharedWrapper>
     );
 };

@@ -282,7 +282,7 @@ const getTheme = () => {
         },
         transition: {
             ...rootTransition,
-            call: (...args: []) => getTransitionCss(...args),
+            call: (...args: any[]) => getTransitionCss(...args),
         },
     };
 
