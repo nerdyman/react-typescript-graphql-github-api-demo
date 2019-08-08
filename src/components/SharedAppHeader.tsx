@@ -2,26 +2,34 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { Routes } from '../config';
+import styled from '../utilities/styled';
 
 import { SharedBox } from './SharedBox';
 import { SharedNetworkStatusIndicator } from './SharedNetworkStatusIndicator';
 import { SharedWrapper } from './SharedWrapper';
 
-const SharedBannerHeaderRoot = SharedBox.withComponent('header');
+const SharedAppHeaderRoot = SharedBox.withComponent('header');
+
+const SharedAppHeaderWrapper = styled(SharedWrapper)`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
+
 const SharedBannerHeaderNavLink = SharedBox.withComponent(Link);
 
 export const SharedAppHeader: React.FC<{ routes: Routes }> = ({
     routes,
     ...props
 }) => (
-    <SharedBannerHeaderRoot
+    <SharedAppHeaderRoot
         bg="uiBannerBase"
         color="uiBannerContrast"
         py="threeQuarter"
         role="banner"
         {...props}
     >
-        <SharedWrapper>
+        <SharedAppHeaderWrapper>
             <nav role="navigation">
                 {Object.values(routes).map(route => (
                     <SharedBannerHeaderNavLink
@@ -34,6 +42,6 @@ export const SharedAppHeader: React.FC<{ routes: Routes }> = ({
                 ))}
             </nav>
             <SharedNetworkStatusIndicator />
-        </SharedWrapper>
-    </SharedBannerHeaderRoot>
+        </SharedAppHeaderWrapper>
+    </SharedAppHeaderRoot>
 );

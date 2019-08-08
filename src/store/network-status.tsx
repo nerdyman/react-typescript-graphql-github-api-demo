@@ -1,4 +1,4 @@
-import React, { createContext, PureComponent,useContext } from 'react';
+import React, { createContext, PureComponent, useContext } from 'react';
 
 interface NetworkStatusState {
     /** Whether the network is online */
@@ -6,7 +6,7 @@ interface NetworkStatusState {
 }
 
 const initialState: NetworkStatusState = {
-    isOnline: !navigator.onLine,
+    isOnline: navigator.onLine,
 };
 
 const NetworkStatusContext = createContext(initialState);
@@ -21,18 +21,19 @@ export class NetworkStatusProvider extends PureComponent {
 
     private handleNetworkStatusEvent = (): void => {
         const isOnline = navigator.onLine;
+
         if (isOnline !== this.state.isOnline) {
             this.setState({ isOnline });
         }
-    }
+    };
 
     public componentDidMount(): void {
-        window.addEventListener('onLine', this.handleNetworkStatusEvent);
+        window.addEventListener('online', this.handleNetworkStatusEvent);
         window.addEventListener('offline', this.handleNetworkStatusEvent);
     }
 
     public componentWillUnmount(): void {
-        window.removeEventListener('onLine', this.handleNetworkStatusEvent);
+        window.removeEventListener('online', this.handleNetworkStatusEvent);
         window.removeEventListener('offline', this.handleNetworkStatusEvent);
     }
 
