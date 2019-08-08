@@ -7,6 +7,7 @@ import { createClient, Provider } from 'urql';
 
 import { globalCss } from './styles/global';
 import { theme } from './styles/theme';
+import { NetworkStatusProvider } from './store/network-status';
 import { RouteRepos } from './components/RouteRepos';
 import { Route404 } from './components/Route404';
 import { SharedAppFooter } from './components/SharedAppFooter';
@@ -34,29 +35,31 @@ const App: React.FC = () => (
     <SharedErrorBoundary>
         <ThemeProvider theme={theme}>
             <Global styles={globalCss(theme)} />
-            <Provider value={client}>
-                <Router>
-                    <SharedLayout
-                        header={<SharedAppHeader routes={routes} />}
-                        footer={
-                            <SharedAppFooter>
-                                {config.repo.name}
-                            </SharedAppFooter>
-                        }
-                    >
-                        <SharedBox py="whole">
-                            <Switch>
-                                <Route
-                                    exact
-                                    path={routes.repos.link}
-                                    component={RouteRepos}
-                                />
-                                <Route component={Route404} />
-                            </Switch>
-                        </SharedBox>
-                    </SharedLayout>
-                </Router>
-            </Provider>
+            <NetworkStatusProvider>
+                <Provider value={client}>
+                    <Router>
+                        <SharedLayout
+                            header={<SharedAppHeader routes={routes} />}
+                            footer={
+                                <SharedAppFooter>
+                                    {config.repo.name}
+                                </SharedAppFooter>
+                            }
+                        >
+                            <SharedBox py="whole">
+                                <Switch>
+                                    <Route
+                                        exact
+                                        path={routes.repos.link}
+                                        component={RouteRepos}
+                                    />
+                                    <Route component={Route404} />
+                                </Switch>
+                            </SharedBox>
+                        </SharedLayout>
+                    </Router>
+                </Provider>
+            </NetworkStatusProvider>
         </ThemeProvider>
     </SharedErrorBoundary>
 );

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Routes } from '../config';
 
 import { SharedBox } from './SharedBox';
+import { SharedNetworkStatusIndicator } from './SharedNetworkStatusIndicator';
 import { SharedWrapper } from './SharedWrapper';
 
 const SharedBannerHeaderRoot = SharedBox.withComponent('header');
@@ -32,6 +33,7 @@ export const SharedAppHeader: React.FC<{ routes: Routes }> = ({
                     </SharedBannerHeaderNavLink>
                 ))}
             </nav>
+            <SharedNetworkStatusIndicator />
         </SharedWrapper>
     </SharedBannerHeaderRoot>
 );
