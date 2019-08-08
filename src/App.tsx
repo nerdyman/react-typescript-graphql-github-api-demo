@@ -1,4 +1,5 @@
 import { hot } from 'react-hot-loader/root';
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 import { Global } from '@emotion/core';
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -16,13 +17,17 @@ import { SharedLayout } from './components/SharedLayout';
 import { ThemeProvider } from './ThemeProvider';
 import { config, routes } from './config';
 
+if (__ENV__.envIsProduction) {
+    OfflinePluginRuntime.install();
+}
+
 const client = createClient({
     url: __ENV__.apiEndpoint,
-    fetchOptions: () => ({
-        headers: {
-            authorization: `Bearer ${__ENV__.apiAuthToken}`,
-        },
-    }),
+   fetchOptions: () => ({
+       headers: {
+           authorization: `Bearer ${__ENV__.apiAuthToken}`,
+       },
+   }),
 });
 
 const App: React.FC = () => (
