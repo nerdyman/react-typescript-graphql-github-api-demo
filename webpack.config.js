@@ -51,6 +51,20 @@ const getWebpackConfig = () => {
             strictExportPresence: true,
             rules: [
                 {
+                    test: /\.(js|mjs|jsx|ts|tsx)$/,
+                    enforce: 'pre',
+                    use: [
+                        {
+                            loader: require.resolve('eslint-loader'),
+                            options: {
+                                // Emit errors as warnings in non-production
+                                emitWarning: !build.config.envIsProduction,
+                            },
+                        },
+                    ],
+                    include: build.config.dirSrc,
+                },
+                {
                     test: /\.(js|jsx|mjs|ts|tsx)$/,
                     use: require.resolve('babel-loader'),
                     include: build.config.dirSrc,
@@ -90,7 +104,7 @@ const getWebpackConfig = () => {
                         name: 'assets/img/[name].[ext]?[hash]',
                     },
                 },
-            ],
+            ].filter(Boolean),
         },
 
         plugins: [
