@@ -12,7 +12,6 @@ import { RouteRepos } from './components/RouteRepos';
 import { Route404 } from './components/Route404';
 import { SharedAppFooter } from './components/SharedAppFooter';
 import { SharedAppHeader } from './components/SharedAppHeader';
-import { SharedBox } from './components/SharedBox';
 import { SharedErrorBoundary } from './components/SharedErrorBoundary';
 import { SharedLayout } from './components/SharedLayout';
 import { ThemeProvider } from './ThemeProvider';
@@ -24,11 +23,11 @@ if (__ENV__.envIsProduction) {
 
 const client = createClient({
     url: __ENV__.apiEndpoint,
-   fetchOptions: () => ({
-       headers: {
-           authorization: `Bearer ${__ENV__.apiAuthToken}`,
-       },
-   }),
+    fetchOptions: () => ({
+        headers: {
+            authorization: `Bearer ${__ENV__.apiAuthToken}`,
+        },
+    }),
 });
 
 const App: React.FC = () => (
@@ -46,16 +45,14 @@ const App: React.FC = () => (
                                 </SharedAppFooter>
                             }
                         >
-                            <SharedBox py="whole">
-                                <Switch>
-                                    <Route
-                                        exact
-                                        path={routes.repos.link}
-                                        component={RouteRepos}
-                                    />
-                                    <Route component={Route404} />
-                                </Switch>
-                            </SharedBox>
+                            <Switch>
+                                <Route
+                                    exact
+                                    path={routes.repos.link}
+                                    component={RouteRepos}
+                                />
+                                <Route component={Route404} />
+                            </Switch>
                         </SharedLayout>
                     </Router>
                 </Provider>

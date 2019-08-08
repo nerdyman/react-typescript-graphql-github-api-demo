@@ -14,8 +14,10 @@ export const SharedLayoutExtremity = styled.header`
 `;
 
 export const SharedLayoutBody = styled.div`
-    padding-top: ${props => props.theme.space.whole};
-    padding-bottom: ${props => props.theme.space.whole};
+    display: flex;
+    flex-direction: column;
+    padding-top: ${props => props.theme.space.double};
+    padding-bottom: ${props => props.theme.space.double};
     flex-grow: 1;
 `;
 
@@ -67,7 +69,7 @@ export const SharedLayout: React.FC<SharedLayoutProps> = ({
     ...props
 }): React.ReactElement => (
     <SharedLayoutRoot {...props}>
-        <SharedLayoutExtremity>{header}</SharedLayoutExtremity>
+        <SharedLayoutExtremity role="banner">{header}</SharedLayoutExtremity>
         <SharedLayoutBody>{children}</SharedLayoutBody>
         <SharedLayoutExtremity>{footer}</SharedLayoutExtremity>
     </SharedLayoutRoot>
