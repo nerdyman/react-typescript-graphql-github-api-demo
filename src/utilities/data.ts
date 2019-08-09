@@ -32,3 +32,15 @@ export const getPrimaryLanguageWithFallback = (
             ? primaryLanguage.name
             : getPrimaryLanguageWithFallbackDefaults.name,
 });
+
+/**
+ * Get date in 'pretty' format
+ * @param  rawDate - Valid value for `Date`
+ */
+export const getPrettyDate = (rawDate: string): string => {
+    const date = new Date(rawDate);
+    const mins = (date.getUTCMinutes() < 10 ? '0' : '') + date.getUTCMinutes();
+    const hours = `${date.getUTCHours()}:${mins}`;
+
+    return `${date.toDateString()} at ${hours}:${mins}`;
+};

@@ -4,16 +4,15 @@ import { useQuery } from 'urql';
 import { RepositoryPreviewFragment } from '../generated/graphql';
 import { repositoryQueryOne } from '../graphql/respository';
 import { viewerRepositoryStarredQueryAll } from '../graphql/viewer';
-import { RepositoryDetail } from '../components/RepositoryDetail';
-import { RepositoryItem } from '../components/RepositoryItem';
-import { SharedItemGrid } from '../components/SharedItemGrid';
-import { SharedLayoutTitle } from '../components/SharedLayout';
-import {
-    SharedModal,
-    SharedModalFiller,
-    useSharedModal,
-} from '../components/SharedModal';
-import { SharedWrapper } from '../components/SharedWrapper';
+
+// import { SharedBox } from './SharedBox';
+// import { SharedButton } from './SharedButton';
+import { RepositoryDetail } from './RepositoryDetail';
+import { RepositoryItem } from './RepositoryItem';
+import { SharedItemGrid } from './SharedItemGrid';
+import { SharedLayoutTitle } from './SharedLayout';
+import { SharedModal, SharedModalFiller, useSharedModal } from './SharedModal';
+import { SharedWrapper } from './SharedWrapper';
 
 const RouteReposModal: React.FC<any> = ({
     modalProps,
@@ -30,7 +29,9 @@ const RouteReposModal: React.FC<any> = ({
                 <SharedModalFiller>Loading&hellip;</SharedModalFiller>
             )}
             {listing.error && (
-                <SharedModalFiller>Unable to load content</SharedModalFiller>
+                <SharedModalFiller>
+                    Errors ocurred when loading content
+                </SharedModalFiller>
             )}
             {!listing.fetching && listing.data && (
                 <RepositoryDetail {...listing.data.repository} />
@@ -42,11 +43,13 @@ const RouteReposModal: React.FC<any> = ({
 const RouteReposTitleAfter: React.FC<{
     error?: any;
     fetching?: boolean;
-}> = ({ error, fetching }): React.ReactElement => (
-    <>{fetching ? 'Fetching' : error ? 'Error!' : 'OK'}</>
+}> = ({ error, fetching, ...props }): React.ReactElement => (
+    <span role="status" {...props}>
+        {fetching ? 'Fetching' : error ? 'Error!' : 'OK'}
+    </span>
 );
 
-export const RouteRepos: React.FC = (props): React.ReactElement => {
+export const RouteRepos: React.FC = (): React.ReactElement => {
     // Set initial listing variables (initially paused)
     // @TODO Investigate possiblity of changing variables through
     //       `executeListingQuery` at runtime
@@ -55,7 +58,7 @@ export const RouteRepos: React.FC = (props): React.ReactElement => {
         variables: { name: '', owner: '' },
     });
 
-    const [listingsVariables, setListingsVariables] = useState({
+    const [listingsVariables /*, setListingsVariables*/] = useState({
         cursor: null,
         first: 6,
     });
@@ -67,15 +70,15 @@ export const RouteRepos: React.FC = (props): React.ReactElement => {
         variables: listingsVariables,
     });
 
-    const handleFetchMore = (): void => {
-        if (!listings.fetching && listings.data) {
-            setListingsVariables(prevState => ({
-                ...prevState,
-                cursor:
-                    listings.data.viewer.starredRepositories.pageInfo.endCursor,
-            }));
-        }
-    };
+    // const handleFetchMore = (): void => {
+    //     if (!listings.fetching && listings.data) {
+    //         setListingsVariables(prevState => ({
+    //             ...prevState,
+    //             cursor:
+    //                 listings.data.viewer.starredRepositories.pageInfo.endCursor,
+    //         }));
+    //     }
+    // };
 
     const handleItemClick = ({
         name,
@@ -85,15 +88,16 @@ export const RouteRepos: React.FC = (props): React.ReactElement => {
         owner: string;
     }): void => {
         setListingConfig({ pause: false, variables: { name, owner } });
+        modalProps.toggle();
     };
 
-    const canFetchMore =
-        !listings.fetching &&
-        !!listings.data &&
-        listings.data.viewer.starredRepositories.pageInfo.hasNextPage;
+    // const canFetchMore =
+    //     !listings.fetching &&
+    //     !!listings.data &&
+    //     listings.data.viewer.starredRepositories.pageInfo.hasNextPage;
 
     return (
-        <SharedWrapper {...props}>
+        <SharedWrapper>
             <SharedLayoutTitle
                 after={
                     <RouteReposTitleAfter
@@ -119,7 +123,6 @@ export const RouteRepos: React.FC = (props): React.ReactElement => {
                                         name: node.name,
                                         owner: node.owner.login,
                                     });
-                                    modalProps.toggle();
                                 }}
                                 {...node}
                             />
@@ -130,9 +133,14 @@ export const RouteRepos: React.FC = (props): React.ReactElement => {
                     listingConfig={listingConfig}
                 />
             </SharedItemGrid>
-            <button disabled={!canFetchMore} onClick={handleFetchMore}>
-                Load more
-            </button>
+            {/* <SharedBox display="flex" justifyContent="center" mt="double">
+                <SharedButton
+                    disabled={!canFetchMore}
+                    onClick={handleFetchMore}
+                >
+                    Load more
+                </SharedButton>
+            </SharedBox> */}
         </SharedWrapper>
     );
 };

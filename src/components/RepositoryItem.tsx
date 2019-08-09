@@ -1,3 +1,4 @@
+import { keyframes } from '@emotion/core';
 import React from 'react';
 
 import { RepositoryPreviewFragment } from '../generated/graphql';
@@ -10,6 +11,18 @@ import {
 } from './RepositoryButtonToggle';
 import { SharedAvatar } from './SharedAvatar';
 import { SharedBox, SharedBoxProps } from './SharedBox';
+
+const repositoryItemRootKeyIn = keyframes`
+    from {
+        transform: translateY(-.25rem);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+`;
 
 const RepositoryItemRoot = styled.section`
     ${props => props.theme.transition.call('box-shadow, transform')}
@@ -25,6 +38,7 @@ const RepositoryItemRoot = styled.section`
     text-align: center;
     border-radius: ${props => props.theme.radii[1]};
     box-shadow: ${props => props.theme.shadows.base};
+    animation: ${repositoryItemRootKeyIn} 1s ease 1;
 
     &:hover,
     &:focus {
@@ -86,7 +100,6 @@ export const RepositoryItem: React.FC<RepositoryItemProps> = ({
     watchers,
     // url,
     onClick,
-    ...props
 }): React.ReactElement => {
     const safePrimaryLanguage = getPrimaryLanguageWithFallback(primaryLanguage);
 
@@ -98,7 +111,6 @@ export const RepositoryItem: React.FC<RepositoryItemProps> = ({
                     '--item-color': safePrimaryLanguage.color,
                 } as React.CSSProperties
             }
-            {...props}
         >
             {onClick && <RepositoryItemBackdrop onClick={onClick} />}
             <SharedBox
@@ -106,6 +118,7 @@ export const RepositoryItem: React.FC<RepositoryItemProps> = ({
                 display="flex"
                 justifyContent="flex-end"
                 marginLeft="auto"
+                marginBottom="quarter"
             >
                 <RepositoryButtonToggleStar
                     disabled={true}

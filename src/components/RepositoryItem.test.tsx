@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import { SubscriptionState } from '../generated/graphql';
 import { ThemeProvider } from '../ThemeProvider';
 
 import { RepositoryItem, RepositoryItemProps } from './RepositoryItem';
@@ -23,6 +24,11 @@ const mockProps: RepositoryItemProps = {
     stargazers: {
         totalCount: 20,
     },
+    watchers: {
+        totalCount: 200,
+    },
+    viewerCanSubscribe: true,
+    viewerSubscription: SubscriptionState.Subscribed,
     viewerHasStarred: true,
     url: 'https://github.com/dotfiles',
 };

@@ -245,7 +245,6 @@ const getTheme = () => {
             uiBannerContrast: rootColors.white,
             uiBodyBase: rootColors.whites[5],
             uiBodyContrast: rootColors.black,
-            uiBodyAlt: rootColors.whites[4],
             uiContentBorderBase: rootColors.whites[4],
             uiContentBodyBase: rootColors.white,
             uiContentBodyContrast: rootColors.blacks[6],

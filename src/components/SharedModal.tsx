@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import styled from '../utilities/styled';
 
 import { SharedBox, SharedBoxProps } from './SharedBox';
+import { SharedButton } from './SharedButton';
 
 /**
  * Hook to control modal from parent
@@ -65,6 +66,12 @@ const SharedModalDialog = styled(SharedBox)`
     max-width: 35rem;
     max-height: 100vh;
     overflow-y: scroll;
+    margin: ${props => props.theme.space.third};
+`;
+
+const SharedModalDialogClose = styled(SharedButton)`
+    display: block;
+    margin-left: auto;
 `;
 
 export const SharedModal: React.FC<UseSharedModalProps> = ({
@@ -110,6 +117,9 @@ export const SharedModal: React.FC<UseSharedModalProps> = ({
                 aria-modal="true"
                 tabIndex={-1}
             >
+                <SharedModalDialogClose onClick={props.hide}>
+                    Close
+                </SharedModalDialogClose>
                 {children}
             </SharedModalDialog>
         </SharedModalPortal>
