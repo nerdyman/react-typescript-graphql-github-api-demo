@@ -65,9 +65,10 @@ To test the service worker and offline functionality you may want to use [ngrok]
 
 ## TODO
 
+- Add robust tests
+  - Use react testing library
 - Implement continuous deployment
 - Add codecov
-- Add robust tests
 - Add reconciliation for allow for fetch more
 - Suggest repos when none are found
 - Optimise hooks
