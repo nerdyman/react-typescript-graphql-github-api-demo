@@ -5,7 +5,7 @@ import { RepositoryPreviewFragment } from '../generated/graphql';
 import { repositoryQueryOne } from '../graphql/respository';
 import { viewerRepositoryStarredQueryAll } from '../graphql/viewer';
 
-// import { SharedBox } from './SharedBox';
+import { SharedBox } from './SharedBox';
 // import { SharedButton } from './SharedButton';
 import { RepositoryDetail } from './RepositoryDetail';
 import { RepositoryItem } from './RepositoryItem';
@@ -96,6 +96,11 @@ export const RouteRepos: React.FC = (): React.ReactElement => {
     //     !!listings.data &&
     //     listings.data.viewer.starredRepositories.pageInfo.hasNextPage;
 
+    const hasListings =
+        !listings.fetching &&
+        listings.data &&
+        listings.data.viewer.starredRepositories.edges.length > 0;
+
     return (
         <SharedWrapper>
             <SharedLayoutTitle
@@ -108,8 +113,13 @@ export const RouteRepos: React.FC = (): React.ReactElement => {
             >
                 My Starred Repositories
             </SharedLayoutTitle>
+            {!hasListings && (
+                <SharedBox display="flex" justifyContent="center" py="double">
+                    No repositories found.
+                </SharedBox>
+            )}
             <SharedItemGrid>
-                {listings.data &&
+                {hasListings &&
                     listings.data.viewer.starredRepositories.edges.map(
                         ({
                             node,
