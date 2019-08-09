@@ -12,7 +12,6 @@ React + TypeScript app demo using the GitHub V4 GraphQL API.
 - Continuous deployment (netlify)
 - Optimized
   - Embedded critical CSS
-  - Lazy loaded components
 
 ## Set up
 
