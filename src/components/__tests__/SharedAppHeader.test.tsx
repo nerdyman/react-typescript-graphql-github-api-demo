@@ -2,10 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { MemoryRouter } from 'react-router-dom';
 
-import { routes } from '../config';
-import { ThemeProvider } from '../ThemeProvider';
-
-import { SharedAppHeader } from './SharedAppHeader';
+import { routes } from '../../config';
+import { ThemeProvider } from '../../ThemeProvider';
+import { SharedAppHeader } from '../SharedAppHeader';
 
 it('Should render without crashing', () => {
     const div = document.createElement('div');

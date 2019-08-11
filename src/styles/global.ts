@@ -1,8 +1,8 @@
-import { css } from '@emotion/core';
+import { css, SerializedStyles } from '@emotion/core';
 
 import { Theme } from '../styles/theme';
 
-export const globalCss = (theme: Theme) => css`
+export const globalCss = (theme: Theme): SerializedStyles => css`
     @font-face {
         font-family: '${theme.fonts.bodys[0]}';
         font-weight: 100 900;

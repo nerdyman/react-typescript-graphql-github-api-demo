@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
+const path = require('path');
 
 const build = require('./config/build');
 
@@ -25,7 +26,7 @@ module.exports = {
     // collectCoverage: false,
 
     // An array of glob patterns indicating a set of files for which coverage information should be collected
-    // collectCoverageFrom: null,
+    collectCoverageFrom: ['src/**/*.{js,ts,tsx}', '!**/*.test.{js,ts,tsx}'],
 
     // The directory where Jest should output its coverage files
     coverageDirectory: 'coverage',
@@ -67,9 +68,7 @@ module.exports = {
     },
 
     // An array of directory names to be searched recursively up from the requiring module's location
-    // moduleDirectories: [
-    //   "node_modules"
-    // ],
+    moduleDirectories: ['node_modules', path.join('config', 'tests')],
 
     // An array of file extensions your modules use
     // moduleFileExtensions: [
@@ -115,7 +114,7 @@ module.exports = {
     // restoreMocks: false,
 
     // The root directory that Jest should scan for tests and modules within
-    // rootDir: null,
+    rootDir: __dirname,
 
     // A list of paths to directories that Jest should use to search for files in
     // roots: [
@@ -126,10 +125,14 @@ module.exports = {
     // runner: "jest-runner",
 
     // The paths to modules that run some code to configure or set up the testing environment before each test
-    setupFiles: ['./config/setup-jest.ts'],
+    // setupFiles: [],
 
     // A list of paths to modules that run some code to configure or set up the testing framework before each test
-    // setupFilesAfterEnv: [],
+    setupFilesAfterEnv: [
+        '@testing-library/jest-dom',
+        // '@testing-library/react/cleanup-after-each',
+        '<rootDir>/config/setup-jest.ts',
+    ],
 
     // A list of paths to snapshot serializer modules Jest should use for snapshot testing
     // snapshotSerializers: [],
@@ -150,9 +153,7 @@ module.exports = {
     // ],
 
     // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-    // testPathIgnorePatterns: [
-    //   "/node_modules/"
-    // ],
+    testPathIgnorePatterns: ['/node_modules/', '/public/'],
 
     // The regexp pattern or array of patterns that Jest uses to detect test files
     // testRegex: [],

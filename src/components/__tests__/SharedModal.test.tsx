@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { SharedModal, useSharedModal } from './SharedModal';
+import { SharedModal, useSharedModal } from '../SharedModal';
 
 it('Should render without crashing', () => {
     const div = document.createElement('div');

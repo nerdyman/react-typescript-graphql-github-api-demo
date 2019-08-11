@@ -8,8 +8,11 @@ export const SharedEmoji: React.FC<{ label: string }> = ({
     ...props
 }) => <span role="img" aria-label={label} {...props} />;
 
+export const sharedEmojiLinkDefaultProps = {
+    label: 'link',
+    children: '🔗',
+};
+
 export const SharedEmojiLink: React.FC = props => (
-    <SharedEmoji label="Link" {...props}>
-        🔗
-    </SharedEmoji>
+    <SharedEmoji {...sharedEmojiLinkDefaultProps} {...props} />
 );

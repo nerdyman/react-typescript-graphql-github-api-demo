@@ -1,15 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { ThemeProvider } from '../ThemeProvider';
-
-import { Route404 } from './Route404';
+import { ThemeProvider } from '../../ThemeProvider';
+import { SharedAppFooter } from '../SharedAppFooter';
 
 it('Should render without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(
         <ThemeProvider>
-            <Route404 />
+            <SharedAppFooter>Test</SharedAppFooter>
         </ThemeProvider>,
         div,
     );

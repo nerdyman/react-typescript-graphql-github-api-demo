@@ -19,7 +19,6 @@
     "docker:build": "node ./config/scripts/docker build",
     "docker:start": "node ./config/scripts/docker start",
     "docker:test": "node ./config/scripts/docker test",
-    "prestart": "yarn codegen",
     "start": "webpack-dev-server --mode development",
     "build": "yarn bootstrap && NODE_ENV=production webpack --mode production",
     "serve": "serve build",
@@ -35,8 +34,8 @@
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
       "eslint --fix",
-      "jest",
-      "git add"
+      "git add",
+      "jest --bail --findRelatedTests"
     ]
   },
   "dependencies": {
@@ -54,7 +53,7 @@
     "@graphql-codegen/typescript-urql": "^1.4.0",
     "@styled-system/should-forward-prop": "^5.0.18",
     "@types/jest": "^24.0.16",
-    "@types/react": "^16.8.24",
+    "@types/react": "^16.9.1",
     "@types/react-dom": "^16.8.5",
     "@types/react-router-dom": "^4.3.4",
     "@types/styled-system": "^5.0.1",
@@ -82,8 +81,8 @@
     "postcss-loader": "^3.0.0",
     "postcss-normalize": "^8.0.1",
     "postcss-preset-env": "^6.7.0",
-    "react": "^16.8.6",
-    "react-dom": "npm:@hot-loader/react-dom",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "react-hot-loader": "^4.12.10",
     "react-router-dom": "^5.0.1",
     "style-ext-html-webpack-plugin": "^4.1.2",
@@ -97,6 +96,9 @@
     "workbox-webpack-plugin": "^4.3.1"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^4.0.0",
+    "@testing-library/react": "^9.1.0",
+    "@testing-library/react-hooks": "^2.0.1",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
     "eslint": "^5.16.0",
@@ -105,9 +107,11 @@
     "eslint-plugin-jest": "^22.14.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^1.7.0",
     "husky": "^3.0.2",
     "lint-staged": "^9.2.1",
     "prettier": "^1.18.2",
+    "react-test-renderer": "^16.9.0",
     "serve": "^11.1.0",
     "webpack-dev-server": "^3.7.2"
   }

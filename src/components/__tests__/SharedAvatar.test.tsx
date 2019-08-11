@@ -3,9 +3,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { ThemeProvider } from '../ThemeProvider';
-
-import { SharedAvatar } from './SharedAvatar';
+import { ThemeProvider } from '../../ThemeProvider';
+import { SharedAvatar } from '../SharedAvatar';
 
 it('Should render without crashing', (): void => {
     const div = document.createElement('div');

@@ -3,9 +3,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { ThemeProvider } from '../ThemeProvider';
-
-import { SharedLayout } from './SharedLayout';
+import { ThemeProvider } from '../../ThemeProvider';
+import { SharedLayout } from '../SharedLayout';
 
 it('Should render without crashing', () => {
     const div = document.createElement('div');

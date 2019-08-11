@@ -97,7 +97,6 @@ export const RouteRepos: React.FC = (): React.ReactElement => {
     //     listings.data.viewer.starredRepositories.pageInfo.hasNextPage;
 
     const hasListings =
-        !listings.fetching &&
         listings.data &&
         listings.data.viewer.starredRepositories.edges.length > 0;
 
@@ -115,7 +114,11 @@ export const RouteRepos: React.FC = (): React.ReactElement => {
             </SharedLayoutTitle>
             {!hasListings && (
                 <SharedBox display="flex" justifyContent="center" py="double">
-                    No repositories found.
+                    {listings.fetching ? (
+                        <>Loading&hellip;</>
+                    ) : (
+                        'No repositories found.'
+                    )}
                 </SharedBox>
             )}
             <SharedItemGrid>

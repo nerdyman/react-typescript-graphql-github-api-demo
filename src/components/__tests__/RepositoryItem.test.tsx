@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { SubscriptionState } from '../generated/graphql';
-import { ThemeProvider } from '../ThemeProvider';
-
-import { RepositoryItem, RepositoryItemProps } from './RepositoryItem';
+import { SubscriptionState } from '../../generated/graphql';
+import { ThemeProvider } from '../../ThemeProvider';
+import { RepositoryItem, RepositoryItemProps } from '../RepositoryItem';
 
 const mockProps: RepositoryItemProps = {
     id: '1234567',

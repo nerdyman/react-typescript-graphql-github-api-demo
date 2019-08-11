@@ -3,9 +3,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { ThemeProvider } from '../ThemeProvider';
-
-import { SharedItemGrid } from './SharedItemGrid';
+import { ThemeProvider } from '../../ThemeProvider';
+import { SharedItemGrid } from '../SharedItemGrid';
 
 it('Should render without crashing', (): void => {
     const div = document.createElement('div');
